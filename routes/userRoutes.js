@@ -32,7 +32,7 @@ router.post('/', async (req, res) => { // Defining a POST route, when someone se
 });
 
 //PATCH user
-router.patch('/id', async (req, res) => { // Defining a PATCH route to update a user
+router.patch('/:id', async (req, res) => {    // Defining a PATCH route to update a user
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }); //:id is a route parameter, it captures the user’s unique ID from the URL
         //User.findByIdAndUpdate(): This method finds a user by their ID and updates them with the new data.
@@ -57,3 +57,5 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json({ message: err.message }); // Sends error if something goes wrong
     }
 });
+
+export default router;
