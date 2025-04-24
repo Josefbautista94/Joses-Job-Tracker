@@ -46,4 +46,14 @@ router.patch('/id', async (req, res) => { // Defining a PATCH route to update a 
     catch (err) {
         res.status(400).json({ message: err.message }); // If anything goes wrong (e.g., invalid ID, database issue), it catches the error.
     }
-})
+});
+
+router.delete("/:id", async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id); // Finds user by ID and deletes them from the DB
+        res.json({ message: `User deleted` }); // Sends back a confirmation message
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message }); // Sends error if something goes wrong
+    }
+});
