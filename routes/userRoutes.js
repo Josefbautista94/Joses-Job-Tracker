@@ -28,8 +28,22 @@ router.post('/', async (req, res) => { // Defining a POST route, when someone se
     }
     catch (err) {
         res.status(400).json({ message: err.message }); //If there’s an error (like missing fields, duplicate email, etc.), this code runs.
+    }
+});
 
+//PATCH user
+router.patch('/id', async (req, res) => { // Defining a PATCH route to update a user
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }); //:id is a route parameter, it captures the user’s unique ID from the URL
+        //User.findByIdAndUpdate(): This method finds a user by their ID and updates them with the new data.
+        // req.params.id: The ID taken from the URL (e.g., /users/123 → 123).
+        //req.body: The data sent in the request to update the user with (e.g., { name: "Updated Name" }).
+        // { new: true }: This makes sure it returns the updated user. If you leave this out, it would return the old user before the update.
+
+        res.json(user); //Sends back the updated user as JSON.
 
     }
-
+    catch (err) {
+        res.status(400).json({ message: err.message }); // If anything goes wrong (e.g., invalid ID, database issue), it catches the error.
+    }
 })
