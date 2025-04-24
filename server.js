@@ -13,12 +13,12 @@ const PORT = process.env.PORT || 5050; // Sets the port on where my server would
 //MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { // Connecting to my MongoDB database usin the MONGO_URI from the .env file
 
-    useNewUrlParser: true, // Uses the new MongoDB URL string parser
-    useUnifiedTopology: true // Opts into the MongoDB driver's new connection engine.
+  useNewUrlParser: true, // Uses the new MongoDB URL string parser
+  useUnifiedTopology: true // Opts into the MongoDB driver's new connection engine.
 
 })
-    .then(() => console.log("Mongo Connected")) // This logs if connection is successful
-    .catch((err) => console.log(err)); // This catches any errors during connection and logs them.
+  .then(() => console.log("Mongo Connected")) // This logs if connection is successful
+  .catch((err) => console.log(err)); // This catches any errors during connection and logs them.
 
 
 //Placeholder route
