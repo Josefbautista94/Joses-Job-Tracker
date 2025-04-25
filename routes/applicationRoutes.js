@@ -1,5 +1,6 @@
 import express from 'express';
 import Application from '../models/Application.js'
+const router = express.Router(); 
 
 //Get all applications
 router.get('/', async (req, res) => { //Defining a GET route

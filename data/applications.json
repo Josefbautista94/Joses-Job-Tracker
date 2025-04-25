@@ -1,0 +1,4 @@
+[
+    { "companyName": "Google", "positionTitle": "Frontend Developer", "status": "Applied", "notes": "Need to follow up", "userId": "placeholderUserId1" },
+    { "companyName": "Amazon", "positionTitle": "Backend Engineer", "status": "Interviewing", "notes": "Had phone interview", "userId": "placeholderUserId2" }
+  ]
