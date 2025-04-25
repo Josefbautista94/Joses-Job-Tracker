@@ -3,6 +3,7 @@ import mongoose from "mongoose" // Importing Mongoose which is going to help me 
 import dotenv from "dotenv"  // Imports dotenv, a package that loads enviorment variables from .env file
 import userRoutes from './routes/userRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
+import companyRoutes from './routes/companyRoutes.js';
 import cors from 'cors';
 
 dotenv.config(); // Tells the app to read the .env file and make those variables available using process.env
@@ -19,6 +20,7 @@ console.log("Server is ready to handle requests");
 console.log("Using PORT:", PORT);
 app.use('/users', userRoutes);
 app.use('/applications', applicationRoutes);
+app.use('/companies', companyRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI) // Connecting to MongoDB using MONGO_URI from .env
