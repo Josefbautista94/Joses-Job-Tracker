@@ -5,15 +5,14 @@ const applicationSchema = new mongoose.Schema({
     positionTitle: { type: String, required: true },
     status: {
         type: String,
-        enum: [`Applied`, `Interviewing`, `Offer`, `Rejected`],
-        default: `Applied`
+        enum: ['Applied', 'Interviewing', 'Offer', 'Rejected'],
+        default: 'Applied'
     },
-    dateApplied: { type: DataTransfer, default: Date.now },
+    dateApplied: { type: Date, default: Date.now },
     notes: { type: String },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: `user`, required: true }
-
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
-const Application = mongoose.model('Application')
+const Application = mongoose.model('Application', applicationSchema);
 
-export default Application;fffffff
+export default Application;

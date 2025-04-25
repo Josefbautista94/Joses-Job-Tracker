@@ -2,6 +2,7 @@ import express from "express"; // Importing express to handle routes, middleware
 import mongoose from "mongoose" // Importing Mongoose which is going to help me connect to MongoDB and model my data (CRUD, Validation, ect.)
 import dotenv from "dotenv"  // Imports dotenv, a package that loads enviorment variables from .env file
 import userRoutes from './routes/userRoutes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 import cors from 'cors';
 
 dotenv.config(); // Tells the app to read the .env file and make those variables available using process.env
@@ -17,7 +18,7 @@ app.use(express.json()); // Middleware tha allows my app to parse JSON bodies in
 console.log("Server is ready to handle requests");
 console.log("Using PORT:", PORT);
 app.use('/users', userRoutes);
-
+app.use('/applications', applicationRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI) // Connecting to MongoDB using MONGO_URI from .env
