@@ -35,19 +35,26 @@ router.post('/', async (req, res) => { // Defines a POST route
 })
 //PATCH update application status
 router.patch('/:id', async (req, res) => { // Defines a PATCH route
-    try{
-        const application = await Application.findByIdAndUpdate(req.params.id, req.body, {new :true}); //Application.findByIdAndUpdate(): Finds an application by its ID, Updates it with the data in req.body. req.params.id: The ID from the URL (e.g., /applications/12345 --> 12345). req.body: The data to update.
-       //{ new: true }: Tells Mongoose to return the updated application (not the old one). Without this, you’d get the application before the update.
+    try {
+        const application = await Application.findByIdAndUpdate(req.params.id, req.body, { new: true }); //Application.findByIdAndUpdate(): Finds an application by its ID, Updates it with the data in req.body. req.params.id: The ID from the URL (e.g., /applications/12345 --> 12345). req.body: The data to update.
+        //{ new: true }: Tells Mongoose to return the updated application (not the old one). Without this, you’d get the application before the update.
         res.json(application) //Sends back the updated application as JSON.
     }
-    catch(err){
-        res.status(400).json({message:err.message});
+    catch (err) {
+        res.status(400).json({ message: err.message });
     }
 })
 
 //DELETE application
-router.delete('id', async (req,res)=>{
+router.delete('/:id', async (req, res) => { // Defines a DELETE route 
+    try {
+        await Application.findByIdAndDelete(req.params.id); // Looks up the application by ID and deletes it from MongoDB, If the ID doesn't exist or is invalid, it will throw an error, req.params.id = the ID from the URL.
+        res.json({ message: `Application Deleted` }) // Sends back a simple confirmation message after deletion.
 
+    }
+    catch (err) {
+        res.status(400).json({ message: err.message })
+    }
 
 
 })
