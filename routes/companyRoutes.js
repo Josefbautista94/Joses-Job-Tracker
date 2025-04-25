@@ -15,7 +15,7 @@ router.get('/', async (req, res) => { // Defines the GET route, when someone sen
 })
 
 //POST new company
-router.post('/', async (req, res) => {
+router.post('/', async (req, res) => { // Defines a POST route
     try {
         const { name, industry, location, website } = req.body; // Destructure data from the request body
         const newCompany = new Company(name, industry, location, website) // Create a new company instance
@@ -28,9 +28,10 @@ router.post('/', async (req, res) => {
 })
 
 //PATCH update company
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => { // Defines a PATCH route, :id is a dynamic parameter, capturing the company’s unique ID from the URL
     try {
-
+        const company = await Company.findByIdAndUpdate(req.params.id, req.body, { new: true }) // Find company by ID and update it with provided data, returning the updated version
+        res.json(company) // Sends back the updated company as JSON.
     }
     catch (err) {
         res.status(400).json({ message: err.message })
