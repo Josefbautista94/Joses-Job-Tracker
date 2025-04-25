@@ -15,7 +15,7 @@ router.get('/', async (req, res) => { //Defining a GET route
 })
 
 // POST new application
-router.post("/", async (req, res) => { // Defines a POST route
+router.post('/', async (req, res) => { // Defines a POST route
 
     try {
         const { companyName, positionTitle, status, notes, userId } = req.body; // Destructuring data from the request body
@@ -32,6 +32,24 @@ router.post("/", async (req, res) => { // Defines a POST route
     catch (err) {
         res.status(400).json({ message: err.message })
     }
+})
+//PATCH update application status
+router.patch('/:id', async (req, res) => { // Defines a PATCH route
+    try{
+        const application = await Application.findByIdAndUpdate(req.params.id, req.body, {new :true}); //Application.findByIdAndUpdate(): Finds an application by its ID, Updates it with the data in req.body. req.params.id: The ID from the URL (e.g., /applications/12345 --> 12345). req.body: The data to update.
+       //{ new: true }: Tells Mongoose to return the updated application (not the old one). Without this, you’d get the application before the update.
+        res.json(application) //Sends back the updated application as JSON.
+    }
+    catch(err){
+        res.status(400).json({message:err.message});
+    }
+})
+
+//DELETE application
+router.delete('id', async (req,res)=>{
+
+
+
 })
 
 export default router;
