@@ -1,0 +1,6 @@
+[
+    { "name": "Google", "industry": "Tech", "location": "Mountain View", "website": "https://google.com" },
+    { "name": "Amazon", "industry": "E-commerce", "location": "Seattle", "website": "https://amazon.com" },
+    { "name": "Netflix", "industry": "Entertainment", "location": "Los Gatos", "website": "https://netflix.com" }
+  ]
+  
