@@ -6,4 +6,4 @@ node_modules
 frontend/node_modules
 
 #General
-DS_Store
+.DS_Store
