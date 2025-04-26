@@ -1,0 +1,32 @@
+.applications-container {
+    padding: 20px;
+  }
+  
+  .applications-container h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .application-list {
+    margin: 20px auto;
+    max-width: 700px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .application-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .application-item:last-child {
+    border-bottom: none;
+  }
+  
+  .status {
+    font-weight: bold;
+    color: #555;
+  }
+  
