@@ -10,13 +10,17 @@ import Applications from './pages/Applications/Applications';
 function App() {
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/companies" element={<Companies />} />
-        <Route path="/applications" element={<Applications />} />
-      </Routes>
+      <div className="app-container">
+        <NavBar />
+        <div className="page-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/companies" element={<Companies />} />
+            <Route path="/applications" element={<Applications />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }
