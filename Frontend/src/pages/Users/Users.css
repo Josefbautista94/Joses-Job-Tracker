@@ -1,0 +1,26 @@
+.users-container {
+    padding: 20px;
+  }
+  
+  .users-container h1 {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .user-list {
+    margin: 20px auto;
+    max-width: 600px;
+    background: #3a3737;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .user-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .user-item:last-child {
+    border-bottom: none;
+  }
