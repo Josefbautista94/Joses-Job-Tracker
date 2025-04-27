@@ -1,32 +1,39 @@
 .applications-container {
-    padding: 20px;
-  }
+  padding: 20px;
   
-  .applications-container h1 {
-    text-align: center;
-    color: #333;
-  }
+}
+
+.applications-container h1 {
+  text-align: center;
+  color: #fcfcfc;
   
-  .application-list {
-    margin: 20px auto;
-    max-width: 700px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .application-item {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-  }
-  
-  .application-item:last-child {
-    border-bottom: none;
-  }
-  
-  .status {
-    font-weight: bold;
-    color: #555;
-  }
-  
+}
+
+.applications-table {
+  margin: 20px auto;
+  width: 90%;
+  max-width: 800px;
+  border-collapse: collapse;
+  background:  #333;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.applications-table th,
+.applications-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.applications-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.applications-table tr:nth-child(even) {
+  background:  #333;
+}
+
+

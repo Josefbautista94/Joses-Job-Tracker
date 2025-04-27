@@ -25,16 +25,26 @@ function Applications() {
   return (
     <div className="applications-container">
       <h1>Applications</h1>
-      <div className="application-list">
-        {sampleApplications.map((app, index) => (
-          <div key={index} className="application-item">
-            <strong>{app.companyName}</strong><br />
-            <span>{app.positionTitle}</span><br />
-            <span className="status">{app.status}</span><br />
-            <em>{app.notes}</em>
-          </div>
-        ))}
-      </div>
+      <table className="applications-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sampleApplications.map((app, index) => (
+            <tr key={index}>
+              <td>{app.companyName}</td>
+              <td>{app.positionTitle}</td>
+              <td>{app.status}</td>
+              <td>{app.notes}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
