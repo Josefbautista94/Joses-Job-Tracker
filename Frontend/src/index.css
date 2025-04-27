@@ -24,10 +24,8 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #3a3737; /* match your custom background */
 }
 
 h1 {
