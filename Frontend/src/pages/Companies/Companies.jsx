@@ -1,17 +1,21 @@
+import { useEffect, useState } from 'react';
 import './Companies.css';
 
 function Companies() {
-  const sampleCompanies = [
-    { name: "Google", industry: "Tech", location: "Mountain View", website: "https://google.com" },
-    { name: "Amazon", industry: "E-commerce", location: "Seattle", website: "https://amazon.com" },
-    { name: "Netflix", industry: "Entertainment", location: "Los Gatos", website: "https://netflix.com" }
-  ];
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5001/companies')
+      .then(response => response.json())
+      .then(data => setCompanies(data))
+      .catch(err => console.error('Error fetching companies:', err));
+  }, []);
 
   return (
     <div className="companies-container">
       <h1>Companies</h1>
       <div className="company-list">
-        {sampleCompanies.map((company, index) => (
+        {companies.map((company, index) => (
           <div key={index} className="company-item">
             <strong>{company.name}</strong><br />
             <span>{company.industry} - {company.location}</span><br />

@@ -1,26 +1,15 @@
+import { useEffect, useState } from 'react';
 import './Applications.css';
 
 function Applications() {
-  const sampleApplications = [
-    {
-      companyName: "Google",
-      positionTitle: "Frontend Developer",
-      status: "Applied",
-      notes: "Submitted on Monday, follow up next week"
-    },
-    {
-      companyName: "Amazon",
-      positionTitle: "Backend Engineer",
-      status: "Interviewing",
-      notes: "Phone interview scheduled for Friday"
-    },
-    {
-      companyName: "Netflix",
-      positionTitle: "Full Stack Developer",
-      status: "Offer",
-      notes: "Received offer, considering"
-    }
-  ];
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5001/applications')
+      .then(response => response.json())
+      .then(data => setApplications(data))
+      .catch(err => console.error('Error fetching applications:', err));
+  }, []);
 
   return (
     <div className="applications-container">
@@ -35,7 +24,7 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {sampleApplications.map((app, index) => (
+          {applications.map((app, index) => (
             <tr key={index}>
               <td>{app.companyName}</td>
               <td>{app.positionTitle}</td>
