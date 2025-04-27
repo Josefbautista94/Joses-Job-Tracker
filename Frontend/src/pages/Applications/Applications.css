@@ -14,7 +14,7 @@
   width: 90%;
   max-width: 800px;
   border-collapse: collapse;
-  background:  #333;
+  background: #2b2b2b;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -33,7 +33,7 @@
 }
 
 .applications-table tr:nth-child(even) {
-  background:  #333;
+  background: #2b2b2b;
 }
 
 
