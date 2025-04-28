@@ -3,6 +3,9 @@ import './Users.css';
 
 function Users() {
   const [users, setUsers] = useState([]);
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:5001/users')
@@ -11,14 +14,90 @@ function Users() {
       .catch(err => console.error('Error fetching users:', err));
   }, []);
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editMode) {
+      // UPDATE User
+      fetch(`http://localhost:5001/users/${editId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      .then(res => res.json())
+      .then(updatedUser => {
+        setUsers(users.map(user => user._id === editId ? updatedUser : user));
+        setFormData({ name: '', email: '' });
+        setEditMode(false);
+        setEditId(null);
+      })
+      .catch(err => console.error('Error updating user:', err));
+    } else {
+      // ADD New User
+      fetch('http://localhost:5001/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      .then(res => res.json())
+      .then(newUser => {
+        setUsers([...users, newUser]);
+        setFormData({ name: '', email: '' });
+      })
+      .catch(err => console.error('Error adding user:', err));
+    }
+  };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:5001/users/${id}`, {
+      method: 'DELETE',
+    })
+    .then(() => {
+      setUsers(users.filter(user => user._id !== id));
+    })
+    .catch(err => console.error('Error deleting user:', err));
+  };
+
+  const handleEdit = (user) => {
+    setEditMode(true);
+    setEditId(user._id);
+    setFormData({ name: user.name, email: user.email });
+  };
+
   return (
     <div className="users-container">
       <h1>Users</h1>
+      
+      <form onSubmit={handleSubmit} className="user-form">
+        <input 
+          type="text" 
+          name="name" 
+          placeholder="Name" 
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">{editMode ? 'Update User' : 'Add User'}</button>
+      </form>
+
       <div className="user-list">
-        {users.map((user, index) => (
-          <div key={index} className="user-item">
+        {users.map((user) => (
+          <div key={user._id} className="user-item">
             <strong>{user.name}</strong><br />
-            <span>{user.email}</span>
+            <span>{user.email}</span><br />
+            <button onClick={() => handleEdit(user)}>Edit</button>
+            <button onClick={() => handleDelete(user._id)}>Delete</button>
           </div>
         ))}
       </div>
