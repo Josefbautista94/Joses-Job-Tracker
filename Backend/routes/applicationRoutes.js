@@ -19,12 +19,13 @@ router.get('/', async (req, res) => { //Defining a GET route
 router.post('/', async (req, res) => { // Defines a POST route
 
     try {
-        const { companyName, positionTitle, status, notes, userId } = req.body; // Destructuring data from the request body
-        const newApplication = new Application({ // Creates a new instance of the Application model, Prepares the data to be saved to MongoDB, Doesn't save it yet, just structures it.
+        const { companyName, positionTitle, status, notes, website, userId } = req.body;// Destructuring data from the request body
+        const newApplication = new Application({// Creates a new instance of the Application model, Prepares the data to be saved to MongoDB, Doesn't save it yet, just structures it.
             companyName,
             positionTitle,
             status,
             notes,
+            website,  // I FORGOT ABOUT THIS OMG MAN
             userId
         });
         await newApplication.save() // This actually saves the new application to MongoDB, await waits until the save finishes
