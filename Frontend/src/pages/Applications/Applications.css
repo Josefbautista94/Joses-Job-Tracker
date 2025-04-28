@@ -1,39 +1,96 @@
 .applications-container {
   padding: 20px;
-  
+  background: #3a3737;
+  min-height: 100vh;
 }
 
 .applications-container h1 {
   text-align: center;
-  color: #fcfcfc;
-  
+  color: #ffffff;
 }
 
+/* Form Styles */
+.application-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.application-form input,
+.application-form select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.application-form button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745; /* Green for Add/Update */
+  color: #fff;
+  cursor: pointer;
+}
+
+.application-form button:hover {
+  background-color: #218838;
+}
+
+/* Table Styles */
 .applications-table {
-  margin: 20px auto;
-  width: 90%;
-  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
   border-collapse: collapse;
   background: #2b2b2b;
+  color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .applications-table th,
 .applications-table td {
-  border: 1px solid #ddd;
-  padding: 12px;
+  border: 1px solid #444;
+  padding: 10px;
   text-align: left;
 }
 
 .applications-table th {
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #444;
 }
 
 .applications-table tr:nth-child(even) {
-  background: #2b2b2b;
+  background-color: #3d3d3d;
 }
 
+/* Action Buttons */
+.applications-table button {
+  margin-right: 5px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
 
+/* Edit Button */
+.applications-table button:first-of-type {
+  background-color: #004b9c;
+}
+
+.applications-table button:first-of-type:hover {
+  background-color: #007bff;
+}
+
+/* Delete Button */
+.applications-table button:last-of-type {
+  background-color: #cc3333;
+}
+
+.applications-table button:last-of-type:hover {
+  background-color: #ff4444;
+}
