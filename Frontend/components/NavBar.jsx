@@ -5,35 +5,34 @@ import "./NavBar.css";
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav>
-      <div className="nav-header">
-        <div className="nav-logo"> Job Tracker </div>
-<div className={`nav-toggle ${isOpen ? "open" : ""}`} onClick={toggleMenu}>
-          {/*Hamburger Icon */}
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-        </div>
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <Link to="/">Job Tracker</Link>
       </div>
-      <div className={`nav-links ${isOpen ? "open" : ""}`}>
-        <Link to="/" onClick={() => setIsOpen(false)}>
-          Home
-        </Link>
-        <Link to="/applications" onClick={() => setIsOpen(false)}>
-          Applications
-        </Link>
-        <Link to="/users" onClick={() => setIsOpen(false)}>
-          Users
-        </Link>
-        <Link to="/companies" onClick={() => setIsOpen(false)}>
-          Companies
-        </Link>
+
+      <div className="hamburger" onClick={toggleMenu}>
+        <span className={`bar ${isOpen ? "open" : ""}`}></span>
+        <span className={`bar ${isOpen ? "open" : ""}`}></span>
+        <span className={`bar ${isOpen ? "open" : ""}`}></span>
       </div>
+
+      <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
+        <li>
+          <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+        </li>
+        <li>
+          <Link to="/applications" onClick={() => setIsOpen(false)}>Applications</Link>
+        </li>
+        <li>
+          <Link to="/users" onClick={() => setIsOpen(false)}>Users</Link>
+        </li>
+        <li>
+          <Link to="/companies" onClick={() => setIsOpen(false)}>Companies</Link>
+        </li>
+      </ul>
     </nav>
   );
 }
