@@ -9,3 +9,7 @@ html {
     color: #fff;
   }
   
+  html, body {
+  width: 100%;
+  overflow-x: hidden; /*  Stop any overflow globally */
+}
