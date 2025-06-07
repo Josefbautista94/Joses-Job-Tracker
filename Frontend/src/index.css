@@ -64,3 +64,44 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Add this to index.css or respective CSS files */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  nav a {
+    margin: 10px 0;
+  }
+
+  .page-content {
+    padding: 10px;
+  }
+
+  .company-form, .application-form, .user-form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .company-form input, .application-form input, .user-form input,
+  .company-form select, .application-form select {
+    width: 90%;
+  }
+
+  .applications-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .home-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .company-item {
+    width: 100%;
+  }
+}
