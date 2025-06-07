@@ -193,6 +193,46 @@ function Applications() {
           ))}
         </tbody>
       </table>
+
+      {/** Cards for Mobile */}
+      <div className="applications-cards">
+        {applications.map((app) => (
+          <div key={app._id} className="application-card">
+            <h3>{app.companyName}</h3>
+            <p>
+              <strong>Position:</strong> {app.positionTitle}
+            </p>
+            <p>
+              <strong>Status:</strong> {app.status}
+            </p>
+            <p>
+              <strong>Website:</strong>{" "}
+              {app.website ? (
+                <a
+                  href={
+                    app.website.startsWith("http")
+                      ? app.website
+                      : `https://${app.website}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {app.website}
+                </a>
+              ) : (
+                <span style={{ color: "#888" }}>No Website</span>
+              )}
+            </p>
+            <p>
+              <strong>Notes:</strong> {app.notes}
+            </p>
+            <div className="card-buttons">
+              <button onClick={() => handleEdit(app)}>Edit</button>
+              <button onClick={() => handleDelete(app._id)}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
