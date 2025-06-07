@@ -1,26 +1,9 @@
-.companies-container {
-  padding: 40px 20px;
-  background: #3a3737;
-  min-height: 100vh;
-}
-
-.companies-container h1 {
-  text-align: center;
-  color: #ffffff;
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-}
-
-/* Form Styling */
 .company-form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
   margin-bottom: 40px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .company-form input {
@@ -39,11 +22,6 @@
   cursor: pointer;
 }
 
-.company-form button:hover {
-  background-color: #218838;
-}
-
-/* Company Cards */
 .company-list {
   display: flex;
   flex-wrap: wrap;
@@ -55,62 +33,26 @@
   background: #2b2b2b;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   color: #ffffff;
   width: 320px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
-.company-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-}
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  .company-form input {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-.company-item strong {
-  font-size: 1.2rem;
-  display: block;
-  margin-bottom: 5px;
-  color: #ffffff;
-}
+  .company-list {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.company-item span {
-  display: block;
-  color: #cccccc;
-  margin-bottom: 8px;
-}
-
-.company-item a {
-  color: #28a745;
-  text-decoration: none;
-}
-
-.company-item a:hover {
-  text-decoration: underline;
-}
-
-/* Buttons for Edit/Delete */
-.company-item button {
-  margin-top: 10px;
-  margin-right: 5px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #fff;
-}
-
-.company-item button:first-of-type {
-  background-color: #004b9c;
-}
-
-.company-item button:first-of-type:hover {
-  background-color: #007bff;
-}
-
-.company-item button:last-of-type {
-  background-color: #cc3333;
-}
-
-.company-item button:last-of-type:hover {
-  background-color: #ff4444;
+  .company-item {
+    width: 90%;
+    max-width: 400px;
+  }
 }
