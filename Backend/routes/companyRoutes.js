@@ -1,7 +1,7 @@
 import express from 'express';
 import Company from '../models/Company.js'
-
-const router = express.Router(); 
+import { protect, adminOnly } from '../middleware/authMiddleware.js';
+const router = express.Router();
 
 //GET all companies 
 router.get('/', async (req, res) => { // Defines the GET route, when someone sends a GET request to /companies, this function runs.
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => { // Defines the GET route, when someone sen
 })
 
 //POST new company
-router.post('/', async (req, res) => { // Defines a POST route
+router.post('/', [protect, adminOnly], async (req, res) => { // Defines a POST route
     try {
         const { name, industry, location, website } = req.body; // Destructure data from the request body
         const newCompany = new Company({ name, industry, location, website });  // Create a new company instance
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => { // Defines a POST route
 })
 
 //PATCH update company
-router.patch('/:id', async (req, res) => { // Defines a PATCH route, :id is a dynamic parameter, capturing the company’s unique ID from the URL
+router.patch('/:id', [protect, adminOnly], async (req, res) => { // Defines a PATCH route, :id is a dynamic parameter, capturing the company’s unique ID from the URL
     try {
         const company = await Company.findByIdAndUpdate(req.params.id, req.body, { new: true }) // Find company by ID and update it with provided data, returning the updated version
         res.json(company) // Sends back the updated company as JSON.
@@ -40,7 +40,7 @@ router.patch('/:id', async (req, res) => { // Defines a PATCH route, :id is a dy
 })
 
 //DELETE comapny
-router.delete('/:id', async (req, res) => { // Defining a DELETE route
+router.delete('/:id', [protect, adminOnly], async (req, res) => { // Defining a DELETE route
     try {
         await Company.findByIdAndDelete(req.params.id); // Find company by ID and delete it
         res.json({ message: "Company Deleted" }); // Send confirmation message

@@ -1,9 +1,10 @@
 import express from 'express';
 import Application from '../models/Application.js'
 const router = express.Router(); 
+import { protect } from '../middleware/authMiddleware.js'; //auth middleware
 
 //Get all applications
-router.get('/', async (req, res) => { //Defining a GET route
+router.get('/', protect, async (req, res) => { //Defining a GET route
 
     try {
         const applications = await Application.find().populate('userId', 'name email') // Application.find(): Fetches all application documents from the applications collection in MongoDB, .populate('userId', 'name email'): It replaces the userId (which is normally just an ObjectId like 607abc...) with the actual user document in this case it only includes the name and email fields from the user
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => { //Defining a GET route
 })
 
 // POST new application
-router.post('/', async (req, res) => { // Defines a POST route
+router.post('/', protect, async (req, res) => { // Defines a POST route
 
     try {
         const { companyName, positionTitle, status, notes, website, userId } = req.body;// Destructuring data from the request body
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => { // Defines a POST route
     }
 })
 //PATCH update application status
-router.patch('/:id', async (req, res) => { // Defines a PATCH route
+router.patch('/:id',  protect, async (req, res) => { // Defines a PATCH route
     try {
         const application = await Application.findByIdAndUpdate(req.params.id, req.body, { new: true }); //Application.findByIdAndUpdate(): Finds an application by its ID, Updates it with the data in req.body. req.params.id: The ID from the URL (e.g., /applications/12345 --> 12345). req.body: The data to update.
         //{ new: true }: Tells Mongoose to return the updated application (not the old one). Without this, you’d get the application before the update.
@@ -48,7 +49,7 @@ router.patch('/:id', async (req, res) => { // Defines a PATCH route
 })
 
 //DELETE application
-router.delete('/:id', async (req, res) => { // Defines a DELETE route 
+router.delete('/:id', protect, async (req, res) => { // Defines a DELETE route 
     try {
         await Application.findByIdAndDelete(req.params.id); // Looks up the application by ID and deletes it from MongoDB, If the ID doesn't exist or is invalid, it will throw an error, req.params.id = the ID from the URL.
         res.json({ message: `Application Deleted` }) // Sends back a simple confirmation message after deletion.
