@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "./Login.css"
+
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -33,7 +35,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div>
+    <div className = "login-container">
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
