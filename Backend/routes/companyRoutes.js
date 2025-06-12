@@ -1,6 +1,6 @@
 import express from 'express';
 import Company from '../models/Company.js'
-import { protect, adminOnly } from '../middleware/authMiddleware.js';
+import { protect, adminOnly } from '../middleware/authMiddleware.js'; //auth middleware
 const router = express.Router();
 
 //GET all companies 
