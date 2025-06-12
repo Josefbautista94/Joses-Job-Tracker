@@ -16,17 +16,27 @@ function Applications() {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  useEffect(() => {
-    fetch("http://localhost:5001/applications")
-      .then((response) => response.json())
-      .then((data) => setApplications(data))
-      .catch((err) => console.error("Error fetching applications:", err));
+useEffect(() => {
+  const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5001/users")
-      .then((response) => response.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error("Error fetching users:", err));
-  }, []);
+  fetch("http://localhost:5001/applications", {
+    headers: {
+      Authorization: `Bearer ${token}`, // ✅ this is the key fix
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => setApplications(data))
+    .catch((err) => console.error("Error fetching applications:", err));
+
+  fetch("http://localhost:5001/users", {
+    headers: {
+      Authorization: `Bearer ${token}`, // ✅ same here
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => setUsers(data))
+    .catch((err) => console.error("Error fetching users:", err));
+}, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +51,11 @@ function Applications() {
 
     fetch(url, {
       method: method,
-      headers: { "Content-Type": "application/json" },
+       headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
@@ -70,6 +84,9 @@ function Applications() {
   const handleDelete = (id) => {
     fetch(`http://localhost:5001/applications/${id}`, {
       method: "DELETE",
+       headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`, 
+  },
     })
       .then(() => {
         setApplications(applications.filter((app) => app._id !== id));
