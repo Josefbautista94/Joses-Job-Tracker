@@ -28,7 +28,7 @@ router.post('/', protect, async (req, res) => { // Defines a POST route
             positionTitle,
             status,
             notes,
-            website,  // I FORGOT ABOUT THIS OMG MAN
+            website,  
             userId
         });
         await newApplication.save() // This actually saves the new application to MongoDB, await waits until the save finishes
