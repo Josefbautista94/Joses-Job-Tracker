@@ -6,6 +6,8 @@ import Home from './pages/Home/Home';
 import Users from './pages/Users/Users';
 import Companies from './pages/Companies/Companies';
 import Applications from './pages/Applications/Applications';
+import Login from './pages/Login/Login'; 
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
             <Route path="/applications" element={<Applications />} />
             <Route path="/users" element={<Users />} />
             <Route path="/companies" element={<Companies />} />
+            <Route path="/login" element={<Login onLogin={(user) => console.log("Logged in:", user)} />} />
           </Routes>
         </div>
       </div>

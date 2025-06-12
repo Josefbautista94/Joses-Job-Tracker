@@ -21,16 +21,30 @@ function NavBar() {
 
       <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
         <li>
-          <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
+          <Link to="/" onClick={() => setIsOpen(false)}>
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/applications" onClick={() => setIsOpen(false)}>Applications</Link>
+          <Link to="/applications" onClick={() => setIsOpen(false)}>
+            Applications
+          </Link>
         </li>
         <li>
-          <Link to="/users" onClick={() => setIsOpen(false)}>Users</Link>
+          <Link to="/users" onClick={() => setIsOpen(false)}>
+            Users
+          </Link>
         </li>
         <li>
-          <Link to="/companies" onClick={() => setIsOpen(false)}>Companies</Link>
+          <Link to="/companies" onClick={() => setIsOpen(false)}>
+            Companies
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/login" onClick={() => setIsOpen(false)}>
+            Login
+          </Link>
         </li>
       </ul>
     </nav>
