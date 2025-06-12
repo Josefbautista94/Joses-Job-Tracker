@@ -1,13 +1,15 @@
 import express from 'express';
 import Application from '../models/Application.js'
-const router = express.Router(); 
+const router = express.Router();
 import { protect } from '../middleware/authMiddleware.js'; //auth middleware
 
 //Get all applications
 router.get('/', protect, async (req, res) => { //Defining a GET route
 
     try {
-        const applications = await Application.find().populate('userId', 'name email') // Application.find(): Fetches all application documents from the applications collection in MongoDB, .populate('userId', 'name email'): It replaces the userId (which is normally just an ObjectId like 607abc...) with the actual user document in this case it only includes the name and email fields from the user
+        // Fetch applications that belong only to the logged-in user (using the ID from the JWT)
+        // Also populate the userId field with the user's name and email for context
+        const applications = await Application.find({ userId: req.user.id }).populate('userId', 'name email');
         res.json(applications) //Sends the array of applications back to the client as JSON
     }
     catch (err) {
@@ -37,7 +39,7 @@ router.post('/', protect, async (req, res) => { // Defines a POST route
     }
 })
 //PATCH update application status
-router.patch('/:id',  protect, async (req, res) => { // Defines a PATCH route
+router.patch('/:id', protect, async (req, res) => { // Defines a PATCH route
     try {
         const application = await Application.findByIdAndUpdate(req.params.id, req.body, { new: true }); //Application.findByIdAndUpdate(): Finds an application by its ID, Updates it with the data in req.body. req.params.id: The ID from the URL (e.g., /applications/12345 --> 12345). req.body: The data to update.
         //{ new: true }: Tells Mongoose to return the updated application (not the old one). Without this, you’d get the application before the update.
