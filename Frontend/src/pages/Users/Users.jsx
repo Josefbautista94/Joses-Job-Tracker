@@ -7,12 +7,18 @@ function Users() {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  useEffect(() => {
-    fetch('http://localhost:5001/users')
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(err => console.error('Error fetching users:', err));
-  }, []);
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  fetch("http://localhost:5001/users", {
+    headers: {
+      Authorization: `Bearer ${token}`, // ✅ this makes it work
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => setUsers(data))
+    .catch((err) => console.error("Error fetching users:", err));
+}, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -92,7 +98,8 @@ function Users() {
       </form>
 
       <div className="user-list">
-        {users.map((user) => (
+     {Array.isArray(users) &&
+  users.map((user) => (
           <div key={user._id} className="user-item">
             <strong>{user.name}</strong><br />
             <span>{user.email}</span><br />
