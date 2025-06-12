@@ -1,10 +1,14 @@
 import { useState } from "react";
-import "./Login.css"
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
-
-function Login({ onLogin }) {
+function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,14 +32,16 @@ function Login({ onLogin }) {
       }
 
       localStorage.setItem("token", data.token);
-      onLogin(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user)); // store user for reload
+      setUser(data.user);
+      navigate("/applications");
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className = "login-container">
+    <div className="login-container">
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
