@@ -6,7 +6,7 @@ export const protect = (req, res, next) => {
     const authHeader = req.headers.authorization;  // Get the Authorization header from the incoming request
 
     // Check if it exists and starts with 'Bearer '
-    if (!authHeader?.startWith("Bearer ")) {
+    if (!authHeader?.startsWith("Bearer ")) {
         return res.status(401).json({ message: "Unauthorized" }); // If not, reject with 401 Unauthorized
 
     }
@@ -33,5 +33,5 @@ export const adminOnly = (req, res, next) => {
 
     }
     next();  // User is an admin — continue to next middleware or route
-
+ 
 }

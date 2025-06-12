@@ -26,9 +26,9 @@ async function seedData() {
 
         // Seed Users
         const users = await User.insertMany([
-            { name: "Jose Bautista", email: "jose@example.com" },
-            { name: "Ana Martinez", email: "ana@example.com" },
-            { name: "Carlos Diaz", email: "carlos@example.com" }
+            { name: "Jose Bautista", email: "jose@example.com", password: "test123", role: "admin" },
+            { name: "Ana Martinez", email: "ana@example.com", password: "test123", role: "user" },
+            { name: "Carlos Diaz", email: "carlos@example.com", password: "test123", role: "user" }
         ]);
 
         // Seed Companies
