@@ -34,7 +34,6 @@ function NavBar() {
           </Link>
         </li>
 
-        {/* ✅ Show Companies link only if logged in */}
         {user && (
           <li>
             <Link to="/companies" onClick={() => setIsOpen(false)}>
@@ -43,7 +42,6 @@ function NavBar() {
           </li>
         )}
 
-        {/* ✅ Show Users link only for admins */}
         {user?.role === "admin" && (
           <li>
             <Link to="/users" onClick={() => setIsOpen(false)}>
@@ -52,16 +50,21 @@ function NavBar() {
           </li>
         )}
 
-        {/* ✅ Show Login if logged out */}
         {!user && (
-          <li>
-            <Link to="/login" onClick={() => setIsOpen(false)}>
-              Login
-            </Link>
-          </li>
+          <>
+            <li>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/register" onClick={() => setIsOpen(false)}>
+                Register
+              </Link>
+            </li>
+          </>
         )}
 
-        {/* ✅ Show Logout if logged in */}
         {user && (
           <li>
             <button

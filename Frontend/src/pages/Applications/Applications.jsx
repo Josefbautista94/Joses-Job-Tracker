@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Applications.css";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 function Applications() {
+  const { user } = useContext(AuthContext);
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
@@ -16,27 +19,29 @@ function Applications() {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  fetch("http://localhost:5001/applications", {
-    headers: {
-      Authorization: `Bearer ${token}`, // ✅ this is the key fix
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => setApplications(data))
-    .catch((err) => console.error("Error fetching applications:", err));
+    fetch("http://localhost:5001/applications", {
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ this is the key fix
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setApplications(data))
+      .catch((err) => console.error("Error fetching applications:", err));
 
-  fetch("http://localhost:5001/users", {
-    headers: {
-      Authorization: `Bearer ${token}`, // ✅ same here
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => setUsers(data))
-    .catch((err) => console.error("Error fetching users:", err));
-}, []);
+    if (user?.role === "admin") {
+      fetch("http://localhost:5001/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setUsers(data))
+        .catch((err) => console.error("Error fetching users:", err));
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,10 +56,10 @@ useEffect(() => {
 
     fetch(url, {
       method: method,
-       headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
 
       body: JSON.stringify(formData),
     })
@@ -84,9 +89,9 @@ useEffect(() => {
   const handleDelete = (id) => {
     fetch(`http://localhost:5001/applications/${id}`, {
       method: "DELETE",
-       headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`, 
-  },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then(() => {
         setApplications(applications.filter((app) => app._id !== id));
@@ -156,11 +161,12 @@ useEffect(() => {
           required
         >
           <option value="">Select User</option>
-          {users.map((user) => (
-            <option key={user._id} value={user._id}>
-              {user.name} ({user.email})
-            </option>
-          ))}
+          {Array.isArray(users) &&
+            users.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.name} ({user.email})
+              </option>
+            ))}
         </select>
         <button type="submit">
           {editMode ? "Update Application" : "Add Application"}
