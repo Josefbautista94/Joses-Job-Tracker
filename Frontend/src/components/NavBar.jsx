@@ -28,11 +28,13 @@ function NavBar() {
             Home
           </Link>
         </li>
-        <li>
-          <Link to="/applications" onClick={() => setIsOpen(false)}>
-            Applications
-          </Link>
-        </li>
+        {user && (
+          <li>
+            <Link to="/applications" onClick={() => setIsOpen(false)}>
+              Applications
+            </Link>
+          </li>
+        )}
 
         {user && (
           <li>
