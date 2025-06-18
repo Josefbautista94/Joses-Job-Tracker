@@ -7,6 +7,14 @@ import Companies from "./pages/Companies/Companies";
 import Applications from "./pages/Applications/Applications";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+
+function ProtectedRoute({ children }) {
+  const { user } = useContext(AuthContext);
+  return user ? children : <Navigate to="/" />;
+}
 
 function App() {
   return (
@@ -16,7 +24,14 @@ function App() {
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/applications" element={<Applications />} />
+            <Route
+              path="/applications"
+              element={
+                <ProtectedRoute>
+                  <Applications />
+                </ProtectedRoute>
+              }
+            />{" "}
             <Route path="/users" element={<Users />} />
             <Route path="/companies" element={<Companies />} />
             <Route
