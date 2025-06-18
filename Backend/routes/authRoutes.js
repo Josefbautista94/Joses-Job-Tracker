@@ -8,8 +8,8 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
 
     try {
-        const { name, email, password, role } = req.body; // Destructure user info from the request body (sent from frontend)
-
+        const { name, password, role } = req.body; // Destructure user info from the request body (sent from frontend)
+        const email = req.body.email.toLowerCase();
         // Create a new User instance using the provided data
         // The password will get hashed automatically by the pre-save hook
         const newUser = new User({ name, email, password, role });
@@ -26,8 +26,8 @@ router.post("/register", async (req, res) => {
 
 // Defines a POST route at /login for user authentication
 router.post("/login", async (req, res) => {
-
-    const { email, password } = req.body; // Step 1: Extract email and password from the request body (submitted by the user)
+    const email = req.body.email.toLowerCase();
+    const { password } = req.body; // Step 1: Extract email and password from the request body (submitted by the user)
 
     const user = await User.findOne({ email }); // Step 2: Look up the user in the database by email
 
