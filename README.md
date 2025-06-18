@@ -1,108 +1,120 @@
-# SBA319 - Job Application Tracker
 
-## Overview
-A Full Stack application built with **Node.js**, **Express**, **MongoDB**, and **React** (MERN-inspired but not fully MERN yet). This project started as a way to test and practice full-stack CRUD operations, dynamic data handling, and RESTful API integration.
+# 📂 Job Tracker - Full Stack Application
 
----
-
-## Features
-- Manage **Users**, **Companies**, and **Applications**.
-- Full **CRUD** functionality for all entities.
-- Dynamic **User Selection** when creating applications.
-- **Website** support for applications and companies.
-- Clean, **dark-themed** responsive frontend.
-- MongoDB indexing for optimized data retrieval.
-- **Seed script** with mock data for fast setup.
+A complete full-stack application built with **Node.js**, **Express**, **MongoDB**, and **React** (MERN). This project enables users to manage job applications, companies, and users with full authentication, role-based access, and real-time CRUD operations.
 
 ---
 
-## Notes
-- This project wasn't initially intended to be fully MERN — it was a **test run** to get hands-on with full-stack CRUD concepts.
-- Frontend and backend integration was built to **experiment** with real-time data updates, form handling, and API structures.
-- The plan is to **continue evolving** this into a more complete MERN application.
+## 🧠 Overview
+
+This repo contains both the frontend and backend code for the Job Tracker app. It was initially a learning exercise in full-stack development, now evolved into a robust MERN application with full CRUD capabilities and secure authentication.
 
 ---
 
-## Future Plans 🚀
-- Implement **Authentication/Login** system (JWT or Sessions).
-- Add **User Registration** and **role-based access**.
-- Build a **Dashboard** with analytics or summaries.
-- Add **search, filtering**, and **pagination** to lists.
-- Deploy backend to **Render/Heroku**, frontend to **Netlify/Vercel**.
+## 🛠️ Tech Stack
+
+- **Frontend:** React (with Vite), React Router, Context API, CSS
+- **Backend:** Node.js, Express, MongoDB, Mongoose
+- **Authentication:** JWT, Role-based access
+- **Environment:** Vite (frontend), dotenv (backend)
+- **Deployment:** Vercel (frontend), Render/Heroku (backend) *(planned)*
 
 ---
 
-## API Endpoints
+## 🚀 Features
 
-### Users
-- `GET /users` - Fetch all users
-- `POST /users` - Create a new user
-- `PATCH /users/:id` - Update an existing user
-- `DELETE /users/:id` - Delete a user
-
-### Companies
-- `GET /companies` - Fetch all companies
-- `POST /companies` - Create a new company
-- `PATCH /companies/:id` - Update a company
-- `DELETE /companies/:id` - Delete a company
-
-### Applications
-- `GET /applications` - Fetch all job applications
-- `POST /applications` - Create a new application
-- `PATCH /applications/:id` - Update an application
-- `DELETE /applications/:id` - Delete an application
+- Register/Login system with JWT authentication
+- Role-based access: Admin vs Regular Users
+- Full CRUD for:
+  - Users (admin only)
+  - Companies
+  - Job Applications
+- Dynamic user linking in applications
+- Website link support in forms
+- Responsive, mobile-friendly dark theme
+- Context-based global login state
+- Seed script with mock data for rapid setup
 
 ---
 
-## Setup Instructions
+## 📁 Folder Structure
 
-### Backend Setup
-1. Navigate to the backend folder:
-   ```bash
-   cd backend
-Install dependencies:
+```
+/frontend     --> React client (Login, Register, CRUD UI)
+/backend      --> Express API (auth, apps, users, companies)
+/README.md    --> This file
+```
 
+Each subdirectory includes its own README for details and setup.
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Backend Setup
+
+```bash
+cd backend
 npm install
+```
 
-Create a .env file:
+Create a `.env` file in `/backend`:
 
-MONGO_URI=your_mongo_uri_here
+```
+MONGO_URI=your_mongo_connection_string
+JWT_SECRET=your_secret_key
 PORT=5001
+```
 
-Start the backend server:
+Run the backend:
 
+```bash
 npm run dev
+```
 
-Frontend Setup
-Navigate to the frontend folder:
+### 2. Frontend Setup
 
+```bash
 cd frontend
-
-Install frontend dependencies:
-
 npm install
-
-Start the frontend:
-
 npm run dev
+```
 
-Seed the Database
-To populate the database with mock data:
+### 3. Seed the Database
 
+```bash
+cd backend
 node seed.js
+```
 
+---
 
-Tech Stack
-Node.js
+## 📌 Notes
 
-Express
+- Initially started as a CRUD experiment, now a full MERN-style project
+- Shows integration of full-stack technologies with real-world features
+- Authentication and protected routing fully implemented
+- Fully expandable into dashboards, analytics, filters, and more
 
-MongoDB with Mongoose
+---
 
-React with Vite
+## 📈 Future Enhancements
 
-CSS for styling (Dark Theme)
+- Add search, filtering, and pagination to lists
+- Dashboard views with stats/analytics
+- Notifications or toast feedback
+- Deployment and hosting (Render + Vercel)
 
-Status
-✅ CRUD complete for users, companies, and applications.
-🔜 Authentication & deployment coming soon!
+---
+
+## ✅ Current Status
+
+- ✔️ CRUD complete for Users, Companies, Applications
+- ✔️ Authentication implemented with login/register and role control
+- 🔜 Deployment and advanced UI features next
+
+---
+
+## 🔗 Live Demo
+
+https://joses-job-tracker.vercel.app/
