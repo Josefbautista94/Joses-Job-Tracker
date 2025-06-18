@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema({ // creating a schema for the user collection(blueprint rules)
     name: { type: String, required: true }, // name is a field every user will have, th value must be a string and you must provide a name when creating a user
-    email: { type: String, required: true, unique: true, index: true }, // email is another field for a user, must be type string, you cant create a user without an email
+    email: { type: String, required: true, unique: true, index: true, lowercase: true, }, // email is another field for a user, must be type string, you cant create a user without an email
     password: { type: String, required: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
 });
@@ -18,9 +18,9 @@ userSchema.pre("save", async function (next) { // Before saving a User document,
 userSchema.methods.comparePassword = function (candidatePasword) { // Add a method to the User model that lets us compare a plain text password with the hashed one in the database
 
     return bcrypt.compare(candidatePasword, this.password);
-      // Use bcrypt's compare function to check if the input password matches the stored hashed password
-  // candidatePassword = what the user typed in (plain text)
-  // this.password = the hashed password stored in the database
+    // Use bcrypt's compare function to check if the input password matches the stored hashed password
+    // candidatePassword = what the user typed in (plain text)
+    // this.password = the hashed password stored in the database
 
 }
 
