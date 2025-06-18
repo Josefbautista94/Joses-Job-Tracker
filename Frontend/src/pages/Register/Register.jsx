@@ -7,6 +7,7 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [error, setError] = useState("");
@@ -22,6 +23,11 @@ function Register() {
     setError("");
     setSuccess("");
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
       const res = await fetch("http://localhost:5001/auth/register", {
         method: "POST",
@@ -32,8 +38,8 @@ function Register() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed 🙁");
 
-      setSuccess("Registration was successful! You can log in now. ");
-      setFormData({ name: "", email: "", password: "", role: "user" });
+      setSuccess("Registration was successful! You can log in now.");
+      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setError(err.message);
@@ -47,34 +53,41 @@ function Register() {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Full Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-      type = "password"
-      name = "password"
-      placeholder="Password"
-      value = {formData.password}
-      onChange={handleChange}
-      required
-      />
-      <button type ="submit">Register</button>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Register</button>
       </form>
     </div>
   );
