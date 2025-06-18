@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "./NavBar.css";
 
 function NavBar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { user, setUser } = useContext(AuthContext);
 
@@ -75,6 +76,7 @@ function NavBar() {
                 localStorage.removeItem("user");
                 setUser(null);
                 setIsOpen(false);
+                navigate("/");
               }}
             >
               Logout
