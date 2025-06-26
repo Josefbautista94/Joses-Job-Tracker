@@ -19,6 +19,8 @@ function Applications() {
 
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState("");
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -122,119 +124,92 @@ function Applications() {
     });
   };
 
-  return (
-    <div className="applications-container">
-      <h1>Applications</h1>
+  const filteredApplications = user?.role === "admin" && selectedUserId
+  ? applications.filter(app => app.userId._id === selectedUserId)
+  : applications;
 
-      <form onSubmit={handleSubmit} className="application-form">
-        <input
-          type="text"
-          name="companyName"
-          placeholder="Company Name"
-          value={formData.companyName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="positionTitle"
-          placeholder="Position Title"
-          value={formData.positionTitle}
-          onChange={handleChange}
-          required
-        />
-        <select name="status" value={formData.status} onChange={handleChange}>
-          <option value="Applied">Applied</option>
-          <option value="Interviewing">Interviewing</option>
-          <option value="Offer">Offer</option>
-          <option value="Rejected">Rejected</option>
-        </select>
+return (
+  <div className="applications-container">
+    <h1>Applications</h1>
 
-        <input
-          type="text"
-          name="website"
-          placeholder="Company Website"
-          value={formData.website}
-          onChange={handleChange}
-        />
+    <form onSubmit={handleSubmit} className="application-form">
+      <input
+        type="text"
+        name="companyName"
+        placeholder="Company Name"
+        value={formData.companyName}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="positionTitle"
+        placeholder="Position Title"
+        value={formData.positionTitle}
+        onChange={handleChange}
+        required
+      />
+      <select name="status" value={formData.status} onChange={handleChange}>
+        <option value="Applied">Applied</option>
+        <option value="Interviewing">Interviewing</option>
+        <option value="Offer">Offer</option>
+        <option value="Rejected">Rejected</option>
+      </select>
 
-        <input
-          type="text"
-          name="notes"
-          placeholder="Notes"
-          value={formData.notes}
-          onChange={handleChange}
-        />
-        {user?.role === "admin" && (
-  <select name="userId" value={formData.userId} onChange={handleChange}>
-    <option value="">Select User</option>
-    {users.map((u) => (
-      <option key={u._id} value={u._id}>{u.name}</option>
-    ))}
-  </select>
-)}
-        <button type="submit">
-          {editMode ? "Update Application" : "Add Application"}
-        </button>
-      </form>
+      <input
+        type="text"
+        name="website"
+        placeholder="Company Website"
+        value={formData.website}
+        onChange={handleChange}
+      />
 
-      <table className="applications-table">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Position</th>
-            <th>Status</th>
-            <th>Website</th>
-            <th>Notes</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.map((app) => (
-            <tr key={app._id}>
-              <td>{app.companyName}</td>
-              <td>{app.positionTitle}</td>
-              <td>{app.status}</td>
-              <td>
-                {app.website ? (
-                  <a
-                    href={
-                      app.website.startsWith("http")
-                        ? app.website
-                        : `https://${app.website}`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {app.website}
-                  </a>
-                ) : (
-                  <span style={{ color: "#888" }}>No Website</span>
-                )}
-              </td>
-              <td>{app.notes}</td>
-              <td>
-                <button onClick={() => handleEdit(app)}>Edit</button>
-                <button onClick={() => handleDelete(app._id)}>Delete</button>
-              </td>
-            </tr>
+      <input
+        type="text"
+        name="notes"
+        placeholder="Notes"
+        value={formData.notes}
+        onChange={handleChange}
+      />
+
+      {user?.role === "admin" && (
+        <select
+          value={selectedUserId}
+          onChange={(e) => setSelectedUserId(e.target.value)}
+          style={{ padding: "8px", margin: "10px 0" }}
+        >
+          <option value="">All Users</option>
+          {[...new Map(applications.map(app => [app.userId._id, app.userId])).values()].map((u) => (
+            <option key={u._id} value={u._id}>
+              {u.name}
+            </option>
           ))}
-        </tbody>
-      </table>
+        </select>
+      )}
 
-      {/** Cards for Mobile */}
-      <div className="applications-cards">
-        {applications.map((app) => (
-          <div key={app._id} className="application-card">
-            <h3>{app.companyName}</h3>
-            <p>
-              <strong>Position:</strong> {app.positionTitle}
-            </p>
-            <p>
-              <strong>Status:</strong> {app.status}
-            </p>
-            <p>
-              <strong>Website:</strong>{" "}
+      <button type="submit">
+        {editMode ? "Update Application" : "Add Application"}
+      </button>
+    </form>
+
+    <table className="applications-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Position</th>
+          <th>Status</th>
+          <th>Website</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredApplications.map((app) => (
+          <tr key={app._id}>
+            <td>{app.companyName}</td>
+            <td>{app.positionTitle}</td>
+            <td>{app.status}</td>
+            <td>
               {app.website ? (
                 <a
                   href={
@@ -250,19 +225,58 @@ function Applications() {
               ) : (
                 <span style={{ color: "#888" }}>No Website</span>
               )}
-            </p>
-            <p>
-              <strong>Notes:</strong> {app.notes}
-            </p>
-            <div className="card-buttons">
+            </td>
+            <td>{app.notes}</td>
+            <td>
               <button onClick={() => handleEdit(app)}>Edit</button>
               <button onClick={() => handleDelete(app._id)}>Delete</button>
-            </div>
-          </div>
+            </td>
+          </tr>
         ))}
-      </div>
+      </tbody>
+    </table>
+
+    {/** Cards for Mobile */}
+    <div className="applications-cards">
+      {filteredApplications.map((app) => (
+        <div key={app._id} className="application-card">
+          <h3>{app.companyName}</h3>
+          <p>
+            <strong>Position:</strong> {app.positionTitle}
+          </p>
+          <p>
+            <strong>Status:</strong> {app.status}
+          </p>
+          <p>
+            <strong>Website:</strong>{" "}
+            {app.website ? (
+              <a
+                href={
+                  app.website.startsWith("http")
+                    ? app.website
+                    : `https://${app.website}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {app.website}
+              </a>
+            ) : (
+              <span style={{ color: "#888" }}>No Website</span>
+            )}
+          </p>
+          <p>
+            <strong>Notes:</strong> {app.notes}
+          </p>
+          <div className="card-buttons">
+            <button onClick={() => handleEdit(app)}>Edit</button>
+            <button onClick={() => handleDelete(app._id)}>Delete</button>
+          </div>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
 }
 
 export default Applications;
