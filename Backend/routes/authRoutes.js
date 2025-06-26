@@ -44,7 +44,15 @@ router.post("/login", async (req, res) => {
         { expiresIn: "2h" }); // token will expire in 2 hours
 
     // Step 5: Respond with the token and some basic user info
-    res.json({ token, user: { name: user.name, email: user.email, role: user.role } })
+    res.json({
+        token,
+        user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        }
+    });
 });
 
 export default router;
