@@ -7,9 +7,14 @@ import { protect } from '../middleware/authMiddleware.js'; //auth middleware
 router.get('/', protect, async (req, res) => { //Defining a GET route
 
     try {
+
+        const filter = req.user.role === "admin"
+            ? {} // show all
+            : { userId: req.user.id }; // show only own
+
         // Fetch applications that belong only to the logged-in user (using the ID from the JWT)
         // Also populate the userId field with the user's name and email for context
-        const applications = await Application.find({ userId: req.user.id }).populate('userId', 'name email');
+        const applications = await Application.find(filter).populate('userId', 'name email');
         res.json(applications) //Sends the array of applications back to the client as JSON
     }
     catch (err) {
@@ -28,7 +33,7 @@ router.post('/', protect, async (req, res) => { // Defines a POST route
             positionTitle,
             status,
             notes,
-            website,  
+            website,
             userId
         });
         await newApplication.save() // This actually saves the new application to MongoDB, await waits until the save finishes
