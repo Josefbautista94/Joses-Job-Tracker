@@ -22,16 +22,16 @@ function Applications() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+  
     fetch(`${API_BASE_URL}/applications`, {
       headers: {
-        Authorization: `Bearer ${token}`, // ✅ this is the key fix
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.json())
       .then((data) => setApplications(data))
       .catch((err) => console.error("Error fetching applications:", err));
-
+  
     if (user?.role === "admin") {
       fetch(`${API_BASE_URL}/users`, {
         headers: {
@@ -42,7 +42,13 @@ function Applications() {
         .then((data) => setUsers(data))
         .catch((err) => console.error("Error fetching users:", err));
     }
-  }, []);
+  
+    // ✅ Set userId for logged-in user if not admin
+    if (user?.role !== "admin") {
+      setFormData((prev) => ({ ...prev, userId: user?._id }));
+    }
+  }, [user]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,23 +58,27 @@ function Applications() {
     e.preventDefault();
     const method = editMode ? "PATCH" : "POST";
     const url = editMode
-    ? `${API_BASE_URL}/applications/${editId}`
-    : `${API_BASE_URL}/applications`;
+      ? `${API_BASE_URL}/applications/${editId}`
+      : `${API_BASE_URL}/applications`;
+  
+    // ✅ Inject userId for non-admins just before sending
+    const submissionData = {
+      ...formData,
+      userId: user?.role === "admin" ? formData.userId : user?._id,
+    };
+  console.log(submissionData) 
     fetch(url, {
-      method: method,
+      method,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-
-      body: JSON.stringify(formData),
+      body: JSON.stringify(submissionData),
     })
       .then((res) => res.json())
       .then((result) => {
         if (editMode) {
-          setApplications(
-            applications.map((app) => (app._id === editId ? result : app))
-          );
+          setApplications(applications.map((app) => (app._id === editId ? result : app)));
           setEditMode(false);
           setEditId(null);
         } else {
@@ -80,11 +90,12 @@ function Applications() {
           status: "Applied",
           notes: "",
           website: "",
-          userId: "",
+          userId: user?.role === "admin" ? "" : user?._id, // Reset properly
         });
       })
       .catch((err) => console.error("Error submitting application:", err));
   };
+  
 
   const handleDelete = (id) => {
     fetch(`${API_BASE_URL}/applications/${id}`, {
@@ -154,20 +165,14 @@ function Applications() {
           value={formData.notes}
           onChange={handleChange}
         />
-        <select
-          name="userId"
-          value={formData.userId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select User</option>
-          {Array.isArray(users) &&
-            users.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.name} ({user.email})
-              </option>
-            ))}
-        </select>
+        {user?.role === "admin" && (
+  <select name="userId" value={formData.userId} onChange={handleChange}>
+    <option value="">Select User</option>
+    {users.map((u) => (
+      <option key={u._id} value={u._id}>{u.name}</option>
+    ))}
+  </select>
+)}
         <button type="submit">
           {editMode ? "Update Application" : "Add Application"}
         </button>
