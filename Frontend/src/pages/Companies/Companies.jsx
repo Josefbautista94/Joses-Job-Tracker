@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Companies.css';
+import { API_BASE_URL } from "../../config/config";
 
 function Companies() {
   const [companies, setCompanies] = useState([]);
@@ -13,7 +14,7 @@ function Companies() {
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5001/companies')
+    fetch(`${API_BASE_URL}/companies`)
       .then(response => response.json())
       .then(data => setCompanies(data))
       .catch(err => console.error('Error fetching companies:', err));
@@ -26,8 +27,10 @@ function Companies() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const method = editMode ? 'PATCH' : 'POST';
-    const url = editMode ? `http://localhost:5001/companies/${editId}` : 'http://localhost:5001/companies';
-
+    const url = editMode
+    ? `${API_BASE_URL}/companies/${editId}`
+    : `${API_BASE_URL}/companies`;
+  
     fetch(url, {
       method: method,
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +51,8 @@ function Companies() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5001/companies/${id}`, {
+    fetch(`${API_BASE_URL}/companies/${id}`, {
+
       method: 'DELETE',
     })
     .then(() => {

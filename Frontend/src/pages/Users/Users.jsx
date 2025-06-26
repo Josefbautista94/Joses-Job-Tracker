@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Users.css';
+import { API_BASE_URL } from "../../config/config";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -10,7 +11,7 @@ function Users() {
 useEffect(() => {
   const token = localStorage.getItem("token");
 
-  fetch("http://localhost:5001/users", {
+  fetch(`${API_BASE_URL}/users`, {
     headers: {
       Authorization: `Bearer ${token}`, // ✅ this makes it work
     },
@@ -28,7 +29,8 @@ useEffect(() => {
     e.preventDefault();
     if (editMode) {
       // UPDATE User
-      fetch(`http://localhost:5001/users/${editId}`, {
+      fetch(`${API_BASE_URL}/users/${editId}`, {
+
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -43,7 +45,7 @@ useEffect(() => {
       .catch(err => console.error('Error updating user:', err));
     } else {
       // ADD New User
-      fetch('http://localhost:5001/users', {
+      fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -58,7 +60,7 @@ useEffect(() => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5001/users/${id}`, {
+    fetch(`${API_BASE_URL}/users/${id}`, {
       method: 'DELETE',
     })
     .then(() => {
