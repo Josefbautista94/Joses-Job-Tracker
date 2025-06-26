@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useContext } from "react"; // React hook to access shared data (like user) from a context — in this case, AuthContext
 import { AuthContext } from "../../context/AuthContext"; // importing the context where user data is stored globally. This is how you update login state app-wide.
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../config/config";
 import "./Login.css";
 
 function Login() {
@@ -21,7 +22,7 @@ function Login() {
     setError(""); // Clears any previous error messages.
 
     try {
-      const res = await fetch("http://localhost:5001/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         // Sends a POST request to the backend’s /auth/login endpoint with the form data (email & password) in JSON format.
         method: "POST",
         headers: { "Content-Type": "application/json" },

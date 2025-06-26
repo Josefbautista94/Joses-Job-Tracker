@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Applications.css";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { API_BASE_URL } from "../../config/config";
 
 function Applications() {
   const { user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ function Applications() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5001/applications", {
+    fetch(`${API_BASE_URL}/applications`, {
       headers: {
         Authorization: `Bearer ${token}`, // ✅ this is the key fix
       },
@@ -32,7 +33,7 @@ function Applications() {
       .catch((err) => console.error("Error fetching applications:", err));
 
     if (user?.role === "admin") {
-      fetch("http://localhost:5001/users", {
+      fetch(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,9 +52,8 @@ function Applications() {
     e.preventDefault();
     const method = editMode ? "PATCH" : "POST";
     const url = editMode
-      ? `http://localhost:5001/applications/${editId}`
-      : "http://localhost:5001/applications";
-
+    ? `${API_BASE_URL}/applications/${editId}`
+    : `${API_BASE_URL}/applications`;
     fetch(url, {
       method: method,
       headers: {
@@ -87,7 +87,7 @@ function Applications() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5001/applications/${id}`, {
+    fetch(`${API_BASE_URL}/applications/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
