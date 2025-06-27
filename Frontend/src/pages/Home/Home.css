@@ -55,7 +55,7 @@
 /* Mobile */
 @media (max-width: 768px) {
   .home-container {
-    padding: 60px 8px;
+    padding: 60px .5px;
   }
 
   .home-container h1 {
