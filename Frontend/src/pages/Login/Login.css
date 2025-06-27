@@ -11,7 +11,7 @@
 .login-container h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #28a745;
+  color: #00a2d6;
 }
 
 .login-container form {
@@ -34,7 +34,7 @@
 
 .login-container button {
   padding: 10px;
-  background-color: #28a745;
+  background-color: #00a2d6;
   border: none;
   border-radius: 6px;
   color: white;
@@ -43,5 +43,5 @@
 }
 
 .login-container button:hover {
-  background-color: #218838;
+  background-color: #2ac1f4;
 }

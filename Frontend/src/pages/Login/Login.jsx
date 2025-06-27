@@ -42,6 +42,11 @@ function Login() {
       setUser(data.user); // Updates the global login state (AuthContext) so the rest of the app knows a user is now logged in.
 
       navigate("/applications"); // Redirects the user to the /applications page right after a successful login.
+      console.log("Login response:", res.status, data);
+      console.log("Saved token:", data.token);
+      console.log("Saved user:", data.user);
+      console.log("User set in context!");
+      console.log("Navigating to /applications...");
     } catch (err) {
       setError(err.message); //If anything fails during the login process (like bad password, no response), this displays the error to the user.
     }
