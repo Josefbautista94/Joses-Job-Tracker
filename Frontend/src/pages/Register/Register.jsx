@@ -90,6 +90,9 @@ function Register() {
         />
         <button type="submit">Register</button>
       </form>
+ <p style={{ fontSize: "0.9rem", color: "#aaa", textAlign: "center" }}>
+  🕒 This app uses a free-tier backend that may take up to 1 minute to respond when idle.
+</p>
     </div>
   );
 }
