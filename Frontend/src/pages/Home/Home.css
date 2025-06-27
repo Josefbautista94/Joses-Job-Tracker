@@ -1,47 +1,68 @@
 .home-container {
-  padding: 60px 20px;
-  text-align: center;
+  width: 100%;
+  padding: 100px 20px;
   background: #3a3737;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .home-content {
-  background: #2b2b2b;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  max-width: 600px;
-  width: 100%;         
-  margin: 0 auto;      /* Center horizontally */
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
 }
+
 .home-container h1 {
-  color: #00a2d6;
-  margin-bottom: 20px;
-  font-size: 3rem;     /* Reduced from 3.2em */
+  color: #00bfff;
+  margin-bottom: 24px;
+  font-size: 3rem;
+  font-weight: 600;
 }
 
 .home-container p {
   font-size: 1.2rem;
-  color: #ffffff;
-  margin-top: 0;
+  color: #dddddd;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
-/* Responsive */
+.cta-wrapper {
+  margin-top: 32px;
+}
+
+.cta-message {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #00bfff;
+  color: #0e0e0e;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #0097c7;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-  .home-content {
-    padding: 20px;     /* Less padding on small screens */
-    width: 90%;        /* Slight margin on sides */
+  .home-container {
+    padding: 60px 16px;
   }
 
   .home-container h1 {
-    font-size: 2rem;   /* Smaller h1 on mobile */
+    font-size: 2rem;
   }
 
   .home-container p {
-    font-size: 1rem;   /* Smaller paragraph text */
+    font-size: 1rem;
   }
 }
