@@ -8,6 +8,8 @@
   position: sticky;
   top: 0;
   z-index: 999;
+    box-sizing: border-box;
+
 }
 
 .navbar-logo a {
@@ -52,15 +54,17 @@
 @media (max-width: 768px) {
   .navbar-links {
     position: absolute;
-    top: 100%;
+    top: 100%; /* ✅ keep this */
     left: 0;
     right: 0;
-    background-color: #222;
+    background-color: inherit; /* ✅ keeps same color */
     flex-direction: column;
     align-items: center;
     display: none;
-    padding-top: 0;
-    margin-top: 0;
+    gap: 1.2rem;
+    padding: 1.5rem 0 2rem 0;
+    margin: 0; /* ✅ prevents any vertical shift */
+    z-index: 998;
   }
 
   .navbar-links.active {
@@ -71,6 +75,7 @@
     display: flex;
   }
 }
+
 
 /* Hamburger animation */
 .bar.open:nth-child(1) {
