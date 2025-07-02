@@ -72,20 +72,25 @@ function Companies() {
     setShowConfirm(true);
   };
 
-  const handleDeleteConfirmed = () => {
-    fetch(`${API_BASE_URL}/companies/${companyToDelete}`, {
-      method: "DELETE",
+const handleDeleteConfirmed = () => {
+  console.log("DELETE confirmed for:", companyToDelete);
+  fetch(`${API_BASE_URL}/companies/${companyToDelete}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then(() => {
+      setCompanies(companies.filter((comp) => comp._id !== companyToDelete));
+      setCompanyToDelete(null);
+      setShowConfirm(false);
     })
-      .then(() => {
-        setCompanies(companies.filter((comp) => comp._id !== companyToDelete));
-        setCompanyToDelete(null);
-        setShowConfirm(false);
-      })
-      .catch((err) => {
-        console.error("Error deleting company:", err);
-        setShowConfirm(false);
-      });
-  };
+    .catch((err) => {
+      console.error("Error deleting company:", err);
+      setShowConfirm(false);
+    });
+};
+
 
   return (
     <div className="companies-header">

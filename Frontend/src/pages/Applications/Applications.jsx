@@ -94,6 +94,7 @@ function Applications() {
   };
 
   const handleDeleteConfirmed = () => {
+    console.log("DELETE confirmed for:", appToDelete);
     fetch(`${API_BASE_URL}/applications/${appToDelete}`, {
       method: "DELETE",
       headers: {
