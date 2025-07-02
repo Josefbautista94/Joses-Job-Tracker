@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import './Users.css';
 import { API_BASE_URL } from "../../config/config";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
+const [showConfirm, setShowConfirm] = useState(false);
+const [userToDelete, setUserToDelete] = useState(null);
 
 useEffect(() => {
   const token = localStorage.getItem("token");
@@ -75,9 +78,44 @@ useEffect(() => {
     setFormData({ name: user.name, email: user.email });
   };
 
+  const confirmDelete = (id) => {
+  setUserToDelete(id);
+  setShowConfirm(true);
+};
+
+const handleDeleteConfirmed = () => {
+  fetch(`${API_BASE_URL}/users/${userToDelete}`, {
+    method: 'DELETE',
+  })
+    .then(() => {
+      setUsers(users.filter(user => user._id !== userToDelete));
+      setUserToDelete(null);
+      setShowConfirm(false);
+    })
+    .catch(err => {
+      console.error('Error deleting user:', err);
+      setShowConfirm(false);
+    });
+};
+
   return (
     <div className="users-container">
-      <h1>Users</h1>
+    <div className="users-header">
+      {showConfirm && (
+  <ConfirmModal
+    onConfirm={handleDeleteConfirmed}
+    onCancel={() => setShowConfirm(false)}
+  />
+)}
+
+  <h1>Users</h1>
+  <p>
+    This section is for admin use only. You can manage user accounts, including names and emails,
+    and perform edits or deletions as needed.
+  </p>
+</div>
+
+      
       
       <form onSubmit={handleSubmit} className="user-form">
         <input 
@@ -106,7 +144,7 @@ useEffect(() => {
             <strong>{user.name}</strong><br />
             <span>{user.email}</span><br />
             <button onClick={() => handleEdit(user)}>Edit</button>
-            <button onClick={() => handleDelete(user._id)}>Delete</button>
+<button onClick={() => confirmDelete(user._id)}>Delete</button>
           </div>
         ))}
       </div>
