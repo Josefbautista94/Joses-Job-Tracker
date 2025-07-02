@@ -11,6 +11,7 @@
 .register-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;
+  color: #00bfff;
 }
 
 .register-container form {
@@ -20,14 +21,24 @@
 }
 
 .register-container input {
-  padding: 0.75rem;
-  border: none;
-  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2b2b2b;
+  color: #fff;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .register-container input::placeholder {
-  color: #aaa;
+  color: #999;
+}
+
+.register-container input:focus {
+  outline: none;
+  border-color: #00bfff;
+  box-shadow: 0 0 4px #00bfff;
 }
 
 .register-container button {
@@ -48,4 +59,25 @@
 .register-container p {
   color: red;
   text-align: center;
+}
+
+.show-password-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.show-password-toggle input[type="checkbox"] {
+  accent-color: #00bfff;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.show-password-toggle label {
+  cursor: pointer;
 }
