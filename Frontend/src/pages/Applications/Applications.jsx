@@ -151,13 +151,14 @@ function Applications() {
           onChange={handleChange}
         />
 
-        <input
-          type="text"
-          name="notes"
-          placeholder="Notes"
-          value={formData.notes}
-          onChange={handleChange}
-        />
+    <textarea
+  name="notes"
+  placeholder="Notes"
+  value={formData.notes}
+  onChange={handleChange}
+  className="application-notes"
+/>
+
 
         {user?.role === "admin" && (
           <select
@@ -247,8 +248,9 @@ function Applications() {
               <strong>Position:</strong> {app.positionTitle}
             </p>
             <p>
-  <strong>Date Applied:</strong> {new Date(app.dateApplied).toLocaleDateString()}
-</p>
+              <strong>Date Applied:</strong>{" "}
+              {new Date(app.dateApplied).toLocaleDateString()}
+            </p>
             <p>
               <strong>Status:</strong> {app.status}
             </p>
