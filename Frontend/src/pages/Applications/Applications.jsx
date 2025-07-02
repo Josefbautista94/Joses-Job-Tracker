@@ -3,6 +3,7 @@ import "./Applications.css";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { API_BASE_URL } from "../../config/config";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 
 function Applications() {
   const { user } = useContext(AuthContext);
@@ -19,6 +20,8 @@ function Applications() {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [appToDelete, setAppToDelete] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -85,15 +88,22 @@ function Applications() {
       .catch((err) => console.error("Error submitting application:", err));
   };
 
-  const handleDelete = (id) => {
-    fetch(`${API_BASE_URL}/applications/${id}`, {
+  const confirmDelete = (id) => {
+    setAppToDelete(id);
+    setShowConfirm(true);
+  };
+
+  const handleDeleteConfirmed = () => {
+    fetch(`${API_BASE_URL}/applications/${appToDelete}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then(() => {
-        setApplications(applications.filter((app) => app._id !== id));
+        setApplications(applications.filter((app) => app._id !== appToDelete));
+        setAppToDelete(null);
+        setShowConfirm(false);
       })
       .catch((err) => console.error("Error deleting application:", err));
   };
@@ -117,6 +127,12 @@ function Applications() {
 
   return (
     <div className="applications-container">
+      {showConfirm && (
+        <ConfirmModal
+          onConfirm={handleDeleteConfirmed}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
       <h1>Applications</h1>
 
       <form onSubmit={handleSubmit} className="application-form">
@@ -151,12 +167,12 @@ function Applications() {
           onChange={handleChange}
         />
 
-        <input
-          type="text"
+        <textarea
           name="notes"
           placeholder="Notes"
           value={formData.notes}
           onChange={handleChange}
+          className="application-notes"
         />
 
         {user?.role === "admin" && (
@@ -188,6 +204,7 @@ function Applications() {
           <tr>
             <th>Company</th>
             <th>Position</th>
+            <th>Date</th>
             <th>Status</th>
             <th>Website</th>
             <th>Notes</th>
@@ -200,6 +217,7 @@ function Applications() {
             <tr key={app._id}>
               <td>{app.companyName}</td>
               <td>{app.positionTitle}</td>
+              <td>{new Date(app.dateApplied).toLocaleDateString()}</td>
               <td>{app.status}</td>
               <td>
                 {app.website ? (
@@ -229,7 +247,7 @@ function Applications() {
 
               <td>
                 <button onClick={() => handleEdit(app)}>Edit</button>
-                <button onClick={() => handleDelete(app._id)}>Delete</button>
+                <button onClick={() => confirmDelete(app._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -243,6 +261,10 @@ function Applications() {
             <h3>{app.companyName}</h3>
             <p>
               <strong>Position:</strong> {app.positionTitle}
+            </p>
+            <p>
+              <strong>Date Applied:</strong>{" "}
+              {new Date(app.dateApplied).toLocaleDateString()}
             </p>
             <p>
               <strong>Status:</strong> {app.status}
@@ -270,7 +292,7 @@ function Applications() {
             </p>
             <div className="card-buttons">
               <button onClick={() => handleEdit(app)}>Edit</button>
-              <button onClick={() => handleDelete(app._id)}>Delete</button>
+              <button onClick={() => confirmDelete(app._id)}>Delete</button>
             </div>
           </div>
         ))}
