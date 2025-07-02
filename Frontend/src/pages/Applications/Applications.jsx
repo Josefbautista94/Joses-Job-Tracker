@@ -214,42 +214,50 @@ function Applications() {
         </thead>
         <tbody>
           {filteredApplications.map((app) => (
-            <tr key={app._id}>
-              <td>{app.companyName}</td>
-              <td>{app.positionTitle}</td>
-              <td>{new Date(app.dateApplied).toLocaleDateString()}</td>
-              <td>{app.status}</td>
-              <td>
-                {app.website ? (
-                  <a
-                    href={
-                      app.website.startsWith("http")
-                        ? app.website
-                        : `https://${app.website}`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {app.website}
-                  </a>
-                ) : (
-                  <span style={{ color: "#888" }}>No Website</span>
-                )}
-              </td>
-              <td>{app.notes}</td>
-              {user?.role === "admin" && (
-                <td>
-                  {app.userId?.name}
-                  <br />
-                  <small>{app.userId?.email}</small>
-                </td>
-              )}
+           <tr key={app._id}>
+  <td className="app-company">{app.companyName}</td>
+  <td className="app-position">{app.positionTitle}</td>
+  <td className="app-date">
+    {app.dateApplied
+      ? new Date(app.dateApplied).toLocaleDateString()
+      : "N/A"}
+  </td>
+  <td>
+    <span className={`status-tag ${app.status.toLowerCase()}`}>
+      {app.status}
+    </span>
+  </td>
+  <td className="app-website">
+    {app.website ? (
+      <a
+        href={
+          app.website.startsWith("http")
+            ? app.website
+            : `https://${app.website}`
+        }
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {app.website}
+      </a>
+    ) : (
+      <span style={{ color: "#888" }}>No Website</span>
+    )}
+  </td>
+  <td className="app-notes">{app.notes}</td>
+  {user?.role === "admin" && (
+    <td>
+      {app.userId?.name}
+      <br />
+      <small>{app.userId?.email}</small>
+    </td>
+  )}
+  <td>
+    <button onClick={() => handleEdit(app)}>Edit</button>
+    <button onClick={() => confirmDelete(app._id)}>Delete</button>
+  </td>
+</tr>
 
-              <td>
-                <button onClick={() => handleEdit(app)}>Edit</button>
-                <button onClick={() => confirmDelete(app._id)}>Delete</button>
-              </td>
-            </tr>
           ))}
         </tbody>
       </table>
