@@ -5,7 +5,8 @@ import { API_BASE_URL } from "../../config/config";
 
 function Register() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -14,38 +15,50 @@ function Register() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Registration failed 🙁");
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Registration failed 🙁");
 
-      setSuccess("Registration was successful! You can log in now.");
-      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
-      setTimeout(() => navigate("/login"), 1500);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+    setSuccess("Registration was successful! You can log in now.");
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+
+    setTimeout(() => navigate("/login"), 1500);
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
   return (
     <div className="register-container">
@@ -56,9 +69,18 @@ function Register() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
+          name="firstName"
+          placeholder="First Name"
+          value={formData.firstName}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={formData.lastName}
           onChange={handleChange}
           required
         />
@@ -73,26 +95,39 @@ function Register() {
         />
 
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
           required
         />
+
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="confirmPassword"
           placeholder="Confirm Password"
           value={formData.confirmPassword}
           onChange={handleChange}
           required
         />
+
+        <div className="show-password-toggle">
+  <input
+    type="checkbox"
+    id="showPasswords"
+    checked={showPassword}
+    onChange={() => setShowPassword(!showPassword)}
+  />
+  <label htmlFor="showPasswords">Show Passwords</label>
+</div>
+
         <button type="submit">Register</button>
       </form>
- <p style={{ fontSize: "0.9rem", color: "#aaa", textAlign: "center" }}>
-  🕒 This app uses a free-tier backend that may take up to 1 minute to respond when idle.
-</p>
+      <p style={{ fontSize: "0.9rem", color: "#aaa", textAlign: "center" }}>
+        🕒 This app uses a free-tier backend that may take up to 1 minute to
+        respond when idle.
+      </p>
     </div>
   );
 }
