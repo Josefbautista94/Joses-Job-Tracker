@@ -56,3 +56,22 @@
     max-width: 400px;
   }
 }
+
+.companies-header {
+  text-align: center;
+  padding: 40px 20px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.companies-header h1 {
+  font-size: 2.5rem;
+  color: #00bfff;
+  margin-bottom: 10px;
+}
+
+.companies-header p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.6;
+}
