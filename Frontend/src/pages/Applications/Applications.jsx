@@ -188,6 +188,7 @@ function Applications() {
           <tr>
             <th>Company</th>
             <th>Position</th>
+            <th>Date</th>
             <th>Status</th>
             <th>Website</th>
             <th>Notes</th>
@@ -200,6 +201,7 @@ function Applications() {
             <tr key={app._id}>
               <td>{app.companyName}</td>
               <td>{app.positionTitle}</td>
+              <td>{new Date(app.dateApplied).toLocaleDateString()}</td>
               <td>{app.status}</td>
               <td>
                 {app.website ? (
@@ -244,6 +246,9 @@ function Applications() {
             <p>
               <strong>Position:</strong> {app.positionTitle}
             </p>
+            <p>
+  <strong>Date Applied:</strong> {new Date(app.dateApplied).toLocaleDateString()}
+</p>
             <p>
               <strong>Status:</strong> {app.status}
             </p>
