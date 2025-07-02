@@ -8,19 +8,34 @@
 
 .company-form input {
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2b2b2b;
+  color: #fff;
   width: 250px;
+  font-size: 1rem;
+}
+
+.company-form input::placeholder {
+  color: #aaa;
 }
 
 .company-form button {
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   background-color: #00bfff;
-  color: white;
+  color: #0e0e0e;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.company-form button:hover {
+  background-color: #2ac1f4;
+}
+
 
 .company-list {
   display: flex;
