@@ -28,40 +28,26 @@ function Users() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editMode) {
-      // UPDATE User
-      fetch(`${API_BASE_URL}/users/${editId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((updatedUser) => {
-          setUsers(
-            users.map((user) => (user._id === editId ? updatedUser : user))
-          );
-          setFormData({ name: "", email: "" });
-          setEditMode(false);
-          setEditId(null);
-        })
-        .catch((err) => console.error("Error updating user:", err));
-    } else {
-      // ADD New User
-      fetch(`${API_BASE_URL}/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((newUser) => {
-          setUsers([...users, newUser]);
-          setFormData({ name: "", email: "" });
-        })
-        .catch((err) => console.error("Error adding user:", err));
-    }
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!editMode) return; // Prevent submission unless editing
+
+  fetch(`${API_BASE_URL}/users/${editId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => res.json())
+    .then((updatedUser) => {
+      setUsers(users.map((user) => (user._id === editId ? updatedUser : user)));
+      setFormData({ name: "", email: "" });
+      setEditMode(false);
+      setEditId(null);
+    })
+    .catch((err) => console.error("Error updating user:", err));
+};
+
 
   const handleEdit = (user) => {
     setEditMode(true);
@@ -127,7 +113,9 @@ const handleDeleteConfirmed = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit">{editMode ? "Update User" : "Add User"}</button>
+<button type="submit" disabled={!editMode}>
+  {editMode ? "Update User" : "Select a User to Edit"}
+</button>
       </form>
 
       <div className="user-list">
