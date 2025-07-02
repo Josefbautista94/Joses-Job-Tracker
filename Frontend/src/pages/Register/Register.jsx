@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { API_BASE_URL } from "../../config/config";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -93,34 +94,34 @@ function Register() {
           onChange={handleChange}
           required
         />
-
-        <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type={showPassword ? "text" : "password"}
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-
-        <div className="show-password-toggle">
+<div className="password-wrapper">
   <input
-    type="checkbox"
-    id="showPasswords"
-    checked={showPassword}
-    onChange={() => setShowPassword(!showPassword)}
+    type={showPassword ? "text" : "password"}
+    name="password"
+    placeholder="Password"
+    value={formData.password}
+    onChange={handleChange}
+    required
   />
-  <label htmlFor="showPasswords">Show Passwords</label>
+  <span className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
 </div>
+
+<div className="password-wrapper">
+  <input
+    type={showPassword ? "text" : "password"}
+    name="confirmPassword"
+    placeholder="Confirm Password"
+    value={formData.confirmPassword}
+    onChange={handleChange}
+    required
+  />
+  <span className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
+
 
         <button type="submit">Register</button>
       </form>
