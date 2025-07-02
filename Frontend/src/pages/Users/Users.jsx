@@ -74,20 +74,24 @@ function Users() {
     setShowConfirm(true);
   };
 
-  const handleDeleteConfirmed = () => {
-    fetch(`${API_BASE_URL}/users/${userToDelete}`, {
-      method: "DELETE",
+const handleDeleteConfirmed = () => {
+  fetch(`${API_BASE_URL}/users/${userToDelete}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then(() => {
+      setUsers(users.filter((user) => user._id !== userToDelete));
+      setUserToDelete(null);
+      setShowConfirm(false);
     })
-      .then(() => {
-        setUsers(users.filter((user) => user._id !== userToDelete));
-        setUserToDelete(null);
-        setShowConfirm(false);
-      })
-      .catch((err) => {
-        console.error("Error deleting user:", err);
-        setShowConfirm(false);
-      });
-  };
+    .catch((err) => {
+      console.error("Error deleting user:", err);
+      setShowConfirm(false);
+    });
+};
+
 
   return (
     <div className="users-container">
