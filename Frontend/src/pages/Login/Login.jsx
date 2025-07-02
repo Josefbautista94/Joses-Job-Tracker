@@ -3,6 +3,7 @@ import { useContext } from "react"; // React hook to access shared data (like us
 import { AuthContext } from "../../context/AuthContext"; // importing the context where user data is stored globally. This is how you update login state app-wide.
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../config/config";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Login.css";
 
 function Login() {
@@ -43,7 +44,6 @@ function Login() {
       setUser(data.user); // Updates the global login state (AuthContext) so the rest of the app knows a user is now logged in.
 
       navigate("/applications"); // Redirects the user to the /applications page right after a successful login.
-  
     } catch (err) {
       setError(err.message); //If anything fails during the login process (like bad password, no response), this displays the error to the user.
     }
@@ -68,30 +68,37 @@ function Login() {
         />
 
         {/* Passowrd input field */}
-       <input
-  type={showPassword ? "text" : "password"}
-  name="password"
-  placeholder="Password"
-  value={formData.password}
-  onChange={handleChange}
-  required
-/>
-<div className="show-password-toggle">
-  <input
-    type="checkbox"
-    id="showLoginPassword"
-    checked={showPassword}
-    onChange={() => setShowPassword(!showPassword)}
-  />
-  <label htmlFor="showLoginPassword">Show Password</label>
-</div>
+        <div className="password-wrapper">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <span
+            className="toggle-password-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+
         {/* Submit button — triggers form submit */}
         <button type="submit">Login</button>
       </form>
-   <p style={{ fontSize: "0.9rem", color: "#aaa", textAlign: "center", marginTop: "1rem" }}>
-  🕒 Server may take up to 1 minute to respond due to free-tier hosting (cold start).
-</p>
-
+      <p
+        style={{
+          fontSize: "0.9rem",
+          color: "#aaa",
+          textAlign: "center",
+          marginTop: "1rem",
+        }}
+      >
+        🕒 Server may take up to 1 minute to respond due to free-tier hosting
+        (cold start).
+      </p>
     </div>
   );
 }

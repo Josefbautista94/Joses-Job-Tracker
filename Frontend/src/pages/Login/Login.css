@@ -46,23 +46,27 @@
   background-color: #2ac1f4;
 }
 
-.show-password-toggle {
+.password-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
-  color: #ccc;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
 }
 
-.show-password-toggle input[type="checkbox"] {
-  accent-color: #00bfff;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+  /* make space for the icon */
 }
 
-.show-password-toggle label {
+.toggle-password-icon {
+  position: absolute;
+  right: 10px;
+  color: #bbb;
   cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.toggle-password-icon:hover {
+  color: #00bfff;
 }
