@@ -73,8 +73,12 @@ function Companies() {
   };
 
   return (
-    <div className="companies-container">
-      <h1>Companies</h1>
+   <div className="companies-header">
+  <h1>Companies</h1>
+  <p>
+    Use this page to manage your list of companies. You can store employer info like industry,
+    location, and website — and use it to track who you’re applying to or want to reach out to.
+  </p>
 
       <form onSubmit={handleSubmit} className="company-form">
         <input 
