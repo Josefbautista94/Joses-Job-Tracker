@@ -10,6 +10,7 @@ function Login() {
   const [error, setError] = useState(""); // Stores any error messages to show the user if login fails.
   const { setUser } = useContext(AuthContext); // Accesses the setUser() function from global state so you can set the current logged-in user after a successful login
   const navigate = useNavigate(); //Lets you send the user to another page after login (in this case, /applications).
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     // Updates the formData state each time the user types into the email or password field. It uses the name attribute to know which field is being changed.
@@ -67,14 +68,23 @@ function Login() {
         />
 
         {/* Passowrd input field */}
-        <input
-          type="password" // Input type: password (hides characters)
-          name="password" // Name used in formData state
-          placeholder="Password" // Placeholder text
-          value={formData.password} // Controlled input
-          onChange={handleChange} // Update formData on change
-          required // Field must be filled
-        />
+       <input
+  type={showPassword ? "text" : "password"}
+  name="password"
+  placeholder="Password"
+  value={formData.password}
+  onChange={handleChange}
+  required
+/>
+<div className="show-password-toggle">
+  <input
+    type="checkbox"
+    id="showLoginPassword"
+    checked={showPassword}
+    onChange={() => setShowPassword(!showPassword)}
+  />
+  <label htmlFor="showLoginPassword">Show Password</label>
+</div>
         {/* Submit button — triggers form submit */}
         <button type="submit">Login</button>
       </form>
