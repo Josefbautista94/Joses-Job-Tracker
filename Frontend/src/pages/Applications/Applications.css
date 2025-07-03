@@ -324,6 +324,13 @@
   color: #bbb;
 }
 
+.app-website {
+  max-width: 200px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
 /* Responsive switch */
 @media (max-width: 768px) {
   .applications-table {
