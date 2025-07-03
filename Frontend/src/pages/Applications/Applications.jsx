@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "./Applications.css";
 import { useContext } from "react";
+import { useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { API_BASE_URL } from "../../config/config";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import NotesModal from "../../components/NotesModal/NotesModal";
 
 function Applications() {
   const { user } = useContext(AuthContext);
@@ -16,12 +18,14 @@ function Applications() {
     website: "",
     userId: "",
   });
-
+  const [activeNoteHtml, setActiveNoteHtml] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
+  const formRef = useRef(null);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -109,17 +113,23 @@ function Applications() {
       .catch((err) => console.error("Error deleting application:", err));
   };
 
-  const handleEdit = (app) => {
-    setEditMode(true);
-    setEditId(app._id);
-    setFormData({
-      companyName: app.companyName,
-      positionTitle: app.positionTitle,
-      status: app.status,
-      notes: app.notes,
-      userId: app.userId,
-    });
-  };
+ const handleEdit = (app) => {
+  setEditMode(true);
+  setEditId(app._id);
+  setFormData({
+    companyName: app.companyName,
+    positionTitle: app.positionTitle,
+    status: app.status,
+    notes: app.notes,
+    website: app.website,
+    userId: app.userId,
+  });
+
+  // Scroll to form
+  setTimeout(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 100); // slight delay ensures layout is ready
+};
 
   const filteredApplications =
     user?.role === "admin" && selectedUserId
@@ -128,6 +138,13 @@ function Applications() {
 
   return (
     <div className="applications-container">
+      {activeNoteHtml && (
+        <NotesModal
+          htmlContent={activeNoteHtml}
+          onClose={() => setActiveNoteHtml(null)}
+        />
+      )}
+
       {showConfirm && (
         <ConfirmModal
           onConfirm={handleDeleteConfirmed}
@@ -136,7 +153,7 @@ function Applications() {
       )}
       <h1>Applications</h1>
 
-      <form onSubmit={handleSubmit} className="application-form">
+<form ref={formRef} onSubmit={handleSubmit} className="application-form">
         <input
           type="text"
           name="companyName"
@@ -167,14 +184,17 @@ function Applications() {
           value={formData.website}
           onChange={handleChange}
         />
+<div className="editor-wrapper">
+<div
+  contentEditable
+  className="clean-notes-editor"
+  onInput={(e) =>
+    setFormData({ ...formData, notes: e.currentTarget.innerHTML })
+  }
+  dangerouslySetInnerHTML={{ __html: formData.notes }}
+></div>
 
-        <textarea
-          name="notes"
-          placeholder="Notes"
-          value={formData.notes}
-          onChange={handleChange}
-          className="application-notes"
-        />
+</div>
 
         {user?.role === "admin" && (
           <select
@@ -247,7 +267,21 @@ function Applications() {
                   <span style={{ color: "#888" }}>No Website</span>
                 )}
               </td>
-              <td className="app-notes">{app.notes}</td>
+              <td className="app-notes">
+                <div className="notes-wrapper">
+                  <button
+                    className="view-notes-btn"
+                    onClick={() => setActiveNoteHtml(app.notes)}
+                  >
+                    View
+                  </button>
+                  <div
+                    className="notes-preview"
+                    dangerouslySetInnerHTML={{ __html: app.notes }}
+                  />
+                </div>
+              </td>
+
               {user?.role === "admin" && (
                 <td>
                   {app.userId?.name}
@@ -282,24 +316,39 @@ function Applications() {
             <p>
               <strong>Website:</strong>{" "}
               {app.website ? (
-                <a
-                  href={
-                    app.website.startsWith("http")
-                      ? app.website
-                      : `https://${app.website}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {app.website}
-                </a>
+             <a
+  href={
+    app.website.startsWith("http")
+      ? app.website
+      : `https://${app.website}`
+  }
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  {app.website.length > 40 ? app.website.slice(0, 40) + "..." : app.website}
+</a>
+
               ) : (
                 <span style={{ color: "#888" }}>No Website</span>
               )}
             </p>
-            <p>
-              <strong>Notes:</strong> {app.notes}
-            </p>
+<div className="application-card-section">
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <strong>Notes:</strong>
+    <button
+      className="view-notes-btn"
+      onClick={() => setActiveNoteHtml(app.notes)}
+    >
+      View
+    </button>
+  </div>
+  <div
+    className="application-card-notes"
+    dangerouslySetInnerHTML={{ __html: app.notes }}
+  />
+</div>
+
+
             <div className="card-buttons">
               <button onClick={() => handleEdit(app)}>Edit</button>
               <button onClick={() => confirmDelete(app._id)}>Delete</button>
