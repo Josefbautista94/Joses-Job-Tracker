@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Applications.css";
 import { useContext } from "react";
+import { useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { API_BASE_URL } from "../../config/config";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
-import { Editor, EditorProvider } from "react-simple-wysiwyg";
 import NotesModal from "../../components/NotesModal/NotesModal";
 
 function Applications() {
@@ -24,6 +24,8 @@ function Applications() {
   const [selectedUserId, setSelectedUserId] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [appToDelete, setAppToDelete] = useState(null);
+  const formRef = useRef(null);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -111,17 +113,23 @@ function Applications() {
       .catch((err) => console.error("Error deleting application:", err));
   };
 
-  const handleEdit = (app) => {
-    setEditMode(true);
-    setEditId(app._id);
-    setFormData({
-      companyName: app.companyName,
-      positionTitle: app.positionTitle,
-      status: app.status,
-      notes: app.notes,
-      userId: app.userId,
-    });
-  };
+ const handleEdit = (app) => {
+  setEditMode(true);
+  setEditId(app._id);
+  setFormData({
+    companyName: app.companyName,
+    positionTitle: app.positionTitle,
+    status: app.status,
+    notes: app.notes,
+    website: app.website,
+    userId: app.userId,
+  });
+
+  // Scroll to form
+  setTimeout(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 100); // slight delay ensures layout is ready
+};
 
   const filteredApplications =
     user?.role === "admin" && selectedUserId
@@ -145,7 +153,7 @@ function Applications() {
       )}
       <h1>Applications</h1>
 
-      <form onSubmit={handleSubmit} className="application-form">
+<form ref={formRef} onSubmit={handleSubmit} className="application-form">
         <input
           type="text"
           name="companyName"
@@ -176,16 +184,17 @@ function Applications() {
           value={formData.website}
           onChange={handleChange}
         />
+<div className="editor-wrapper">
+<div
+  contentEditable
+  className="clean-notes-editor"
+  onInput={(e) =>
+    setFormData({ ...formData, notes: e.currentTarget.innerHTML })
+  }
+  dangerouslySetInnerHTML={{ __html: formData.notes }}
+></div>
 
-        <EditorProvider>
-          <Editor
-            value={formData.notes}
-            placeholder="Notes.."
-            onChange={(e) =>
-              setFormData({ ...formData, notes: e.target.value })
-            }
-          />
-        </EditorProvider>
+</div>
 
         {user?.role === "admin" && (
           <select
