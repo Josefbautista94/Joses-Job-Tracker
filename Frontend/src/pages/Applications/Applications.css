@@ -69,10 +69,10 @@
   padding: 8px 12px;
   border: none;
   border-radius: 4px;
-  background-color: #00a2d6; 
+  background-color: #00a2d6;
   color: #0e0e0e;
   cursor: pointer;
-    font-weight: bold;
+  font-weight: bold;
   font-size: 1rem;
 }
 
@@ -90,20 +90,21 @@
   color: #ffffff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .applications-table tr:hover {
   background-color: #3d3d3d;
 }
 
-
 .applications-table th,
 .applications-table td {
   border: 1px solid #444;
   padding: 10px;
   text-align: left;
+  vertical-align: top;
 }
+
 
 .applications-table th {
   background-color: #444;
@@ -146,20 +147,26 @@
   display: none;
   margin: 0 auto;
   padding: 20px;
-  max-width: 600px; /* Limit width for better look */
+  max-width: 600px;
+  /* Limit width for better look */
 }
 
 .application-card {
   background-color: #2b2b2b;
   padding: 20px;
-  margin: 20px 0; /* More space between cards */
+  margin: 20px 0;
+  /* More space between cards */
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   color: #ffffff;
-  word-wrap: break-word;     /* Fix long text */
-  overflow-wrap: break-word; /* Fix long text */
-  width: 100%;               /* Take full available width */
-  box-sizing: border-box;     /* Include padding in width */
+  word-wrap: break-word;
+  /* Fix long text */
+  overflow-wrap: break-word;
+  /* Fix long text */
+  width: 100%;
+  /* Take full available width */
+  box-sizing: border-box;
+  /* Include padding in width */
 }
 
 .application-card h3 {
@@ -256,13 +263,33 @@
 }
 
 .application-card h3 {
+  font-size: 1.2rem;
   margin-bottom: 10px;
   color: #00bfff;
 }
 
-.application-card p {
-  margin: 6px 0;
+
+.application-card-section {
+  margin-bottom: 10px;
+}
+
+.application-card-notes {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #1e1e1e;
+  padding: 10px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  line-height: 1.5;
   font-size: 0.95rem;
+  color: #ccc;
+  margin-top: 6px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.application-card p {
+  white-space: pre-wrap;
+  line-height: 1.5;
 }
 
 .card-buttons {
@@ -321,8 +348,18 @@
 }
 
 .app-notes {
+  white-space: pre-wrap;
+  line-height: 1.4;
+  max-width: 400px;
+  overflow-wrap: break-word;
   color: #bbb;
+  font-size: 0.95rem;
+  width: 100%;
+ max-height: 500px;
+  overflow-y: auto;
+  display: block;
 }
+
 
 .app-website {
   max-width: 200px;
@@ -331,13 +368,90 @@
   word-break: break-word;
   white-space: normal;
 }
+
+/* Target the editor wrapper */
+.rsw-editor {
+  min-height: 120px;
+  width: 100%;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #2b2b2b;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Target the inner textarea */
+.rsw-editor textarea {
+  background-color: #2b2b2b;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  border: none;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.app-notes,
+.app-website {
+  max-width: 220px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.notes-wrapper {
+  position: relative;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-top: 32px; /* room for sticky button */
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #2b2b2b;
+}
+
+/* Sticky View Button */
+.view-notes-btn {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: #00a2d6;
+  color: #0e0e0e;
+  font-weight: bold;
+  font-size: 0.75rem;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 0 0 4px 0;
+  cursor: pointer;
+}
+
+.view-notes-btn:hover {
+  background-color: #2ac1f4;
+}
+
+.notes-preview {
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  color: #bbb;
+  line-height: 1.5;
+}
+
 /* Responsive switch */
 @media (max-width: 768px) {
   .applications-table {
-    display: none; /* hide table on mobile */
+    display: none;
+    /* hide table on mobile */
   }
 
   .applications-cards {
-    display: block; /* show cards on mobile */
+    display: block;
+    /* show cards on mobile */
   }
 }
