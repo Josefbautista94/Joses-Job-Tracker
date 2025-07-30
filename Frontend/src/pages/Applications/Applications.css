@@ -360,7 +360,12 @@
 
 
 
-
+.applications-table td:first-child{
+  text-align: center;
+  font-weight: bold;
+  color: #ffdd57;
+  width: 40px;
+}
 
 
 
