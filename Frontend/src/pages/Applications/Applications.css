@@ -432,6 +432,18 @@
   word-break: break-word;
 }
 
+.card-index {
+  background-color: #00bfff;
+  color: #0e0e0e;
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+
 
 /* Responsive switch */
 @media (max-width: 768px) {
