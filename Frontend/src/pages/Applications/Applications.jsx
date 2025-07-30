@@ -301,9 +301,11 @@ function Applications() {
 
       {/** Cards for Mobile */}
       <div className="applications-cards">
-        {filteredApplications.map((app) => (
-          <div key={app._id} className="application-card">
-            <h3>{app.companyName}</h3>
+  {filteredApplications.map((app, index) => (
+    <div key={app._id} className="application-card">
+      <div className="card-index">#{index + 1}</div> {/* ✅ Add index here */}
+      <h3>{app.companyName}</h3>
+
             <p>
               <strong>Position:</strong> {app.positionTitle}
             </p>
