@@ -225,6 +225,7 @@ function Applications() {
       <table className="applications-table">
         <thead>
           <tr>
+          <th>#</th>
             <th>Company</th>
             <th>Position</th>
             <th>Date</th>
@@ -236,66 +237,66 @@ function Applications() {
           </tr>
         </thead>
         <tbody>
-          {filteredApplications.map((app) => (
-            <tr key={app._id}>
-              <td className="app-company">{app.companyName}</td>
-              <td className="app-position">{app.positionTitle}</td>
-              <td className="app-date">
-                {app.dateApplied
-                  ? new Date(app.dateApplied).toLocaleDateString()
-                  : "N/A"}
-              </td>
-              <td>
-                <span className={`status-tag ${app.status.toLowerCase()}`}>
-                  {app.status}
-                </span>
-              </td>
-              <td className="app-website">
-                {app.website ? (
-                  <a
-                    href={
-                      app.website.startsWith("http")
-                        ? app.website
-                        : `https://${app.website}`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {app.website}
-                  </a>
-                ) : (
-                  <span style={{ color: "#888" }}>No Website</span>
-                )}
-              </td>
-              <td className="app-notes">
-                <div className="notes-wrapper">
-                  <button
-                    className="view-notes-btn"
-                    onClick={() => setActiveNoteHtml(app.notes)}
-                  >
-                    View
-                  </button>
-                  <div
-                    className="notes-preview"
-                    dangerouslySetInnerHTML={{ __html: app.notes }}
-                  />
-                </div>
-              </td>
-
-              {user?.role === "admin" && (
-                <td>
-                  {app.userId?.name}
-                  <br />
-                  <small>{app.userId?.email}</small>
-                </td>
-              )}
-              <td>
-                <button onClick={() => handleEdit(app)}>Edit</button>
-                <button onClick={() => confirmDelete(app._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {filteredApplications.map((app, index) => (
+    <tr key={app._id}>
+      <td>{index + 1}</td> {/* New index number */}
+      <td className="app-company">{app.companyName}</td>
+      <td className="app-position">{app.positionTitle}</td>
+      <td className="app-date">
+        {app.dateApplied
+          ? new Date(app.dateApplied).toLocaleDateString()
+          : "N/A"}
+      </td>
+      <td>
+        <span className={`status-tag ${app.status.toLowerCase()}`}>
+          {app.status}
+        </span>
+      </td>
+      <td className="app-website">
+        {app.website ? (
+          <a
+            href={
+              app.website.startsWith("http")
+                ? app.website
+                : `https://${app.website}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {app.website}
+          </a>
+        ) : (
+          <span style={{ color: "#888" }}>No Website</span>
+        )}
+      </td>
+      <td className="app-notes">
+        <div className="notes-wrapper">
+          <button
+            className="view-notes-btn"
+            onClick={() => setActiveNoteHtml(app.notes)}
+          >
+            View
+          </button>
+          <div
+            className="notes-preview"
+            dangerouslySetInnerHTML={{ __html: app.notes }}
+          />
+        </div>
+      </td>
+      {user?.role === "admin" && (
+        <td>
+          {app.userId?.name}
+          <br />
+          <small>{app.userId?.email}</small>
+        </td>
+      )}
+      <td>
+        <button onClick={() => handleEdit(app)}>Edit</button>
+        <button onClick={() => confirmDelete(app._id)}>Delete</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
       </table>
 
       {/** Cards for Mobile */}
